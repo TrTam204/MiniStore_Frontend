@@ -6,6 +6,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { UserInfoComponent } from './pages/user-info/user-info.component';
 import { ProductCreateComponent } from './pages/product-create/product-create.component';
 import { ProductUpdateComponent } from './pages/product-update/product-update.component';
+import { LoginComponent } from './pages/login/login.component';
 export const routes: Routes = [
 {path: '', redirectTo: 'home', pathMatch: 'full'},
 {path: 'home', component : HomeComponent},
@@ -23,6 +24,7 @@ export const routes: Routes = [
         {path: 'edit/:id', component: UserInfoComponent},
         {path: 'add', component: UserInfoComponent}
     ]},
+{path: 'login', component:LoginComponent},
 {path: '**', redirectTo: 'home'}
 
 ];

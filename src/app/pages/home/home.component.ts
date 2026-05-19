@@ -8,6 +8,8 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import {CartService} from '../../services/cart.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -24,7 +26,9 @@ export class HomeComponent implements OnInit
     constructor(
         private productService: ProductService,
         private router: Router,
-        private categoryService: CategoryService)
+        private cartService: CartService,
+        private categoryService: CategoryService,
+        private userService: UserService)
         {
         }
     ngOnInit(): void
@@ -36,7 +40,14 @@ export class HomeComponent implements OnInit
             console.log('Categories API response:', res);
             this.categories = Array.isArray(res) ? res : [];
         });
-
+        const currentUserId = this.userService.getCurrentUserId();
+        if (!currentUserId) {
+            console.log('Chưa có user nào đăng nhập. Chuyển hướng sang trang Login...');
+        this.router.navigate(['/login']);
+        return;
+        }
+        console.log('User đang hoạt động hợp lệ có ID là:', currentUserId);
+        {console.log(this.userService.getCurrentUserId());};
         this.productService.getAll().subscribe((res) =>
         {
             console.log('Products API response:', res);
@@ -44,7 +55,15 @@ export class HomeComponent implements OnInit
         this.filteredProducts = this.products;
         });
     }
-
+        addToCart(product: any) {
+        this.cartService.addToCart(
+        product.id,
+        product.name,
+        product.imageUrl,
+        product.sellPrice
+        );
+        console.log('Đã thêm vào cart');
+    }
     selectCategory(categoryId: number): void
     {
         this.filteredProducts = this.products.filter(

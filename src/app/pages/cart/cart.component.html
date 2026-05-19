@@ -1,1 +1,69 @@
-<p>cart works!</p>
+<div class="cart-container">
+
+  <div class="cart-header">
+
+    <h2>Giỏ Hàng</h2>
+  </div>
+
+  <div
+    class="cart-card"
+    *ngFor="let item of cart?.cartDetails">
+
+    <div class="cart-image">
+
+      <img
+        [src]="item.imageUrl"
+        [alt]="item.productName">
+
+    </div>
+
+    <div class="cart-info">
+
+      <div class="cart-name">
+        {{ item.productName }}
+      </div>
+
+      <div class="cart-price">
+        {{ item.price | number }} VNĐ
+      </div>
+
+      <div class="cart-quantity">
+
+        <button
+          class="qty-btn"
+          (click)="decreaseQuantity(item.productId)">
+          -
+        </button>
+
+        <span>
+          {{ item.quantity }}
+        </span>
+
+        <button
+          class="qty-btn"
+          (click)="increaseQuantity(item.productId)">
+          +
+        </button>
+
+      </div>
+
+      <div class="cart-total">
+
+        Tổng:
+        {{ item.price * item.quantity | number }} VNĐ
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div
+    class="empty-cart"
+    *ngIf="cart?.cartDetails?.length === 0">
+
+    Giỏ hàng đang trống
+
+  </div>
+
+</div>

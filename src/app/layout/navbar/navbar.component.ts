@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -8,5 +9,4 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
 }

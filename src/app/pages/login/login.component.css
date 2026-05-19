@@ -1,0 +1,103 @@
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    radial-gradient(circle at top, #312e81 0%, #020617 70%);
+  padding: 20px;
+}
+
+.login-card {
+  width: 420px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #312e81;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow:
+    0 0 40px rgba(99, 102, 241, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.logo-title {
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.login-subtitle {
+  color: #c4b5fd;
+  font-size: 16px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-label {
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a78bfa;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 14px 14px 14px 45px;
+  border-radius: 14px;
+  border: 1px solid #4c1d95;
+  background: #0f172a;
+  color: white;
+  font-size: 15px;
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow:
+    0 0 10px rgba(139, 92, 246, 0.4);
+}
+
+:host ::ng-deep .login-btn {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #7c3aed,
+    #4f46e5
+  );
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+:host ::ng-deep .login-btn:hover {
+  opacity: 0.9;
+}
+
+.login-note {
+  margin-top: 30px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}

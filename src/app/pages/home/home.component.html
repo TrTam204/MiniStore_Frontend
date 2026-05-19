@@ -34,13 +34,11 @@
                     <div class="product-name"><strong>{{ product.name }}</strong></div>
                     <div class="product-price">{{ product.sellPrice | number }} VNĐ</div>
                     <div class="product-description">{{ product.description }}</div>
-                    <button
-                        pButton
-                        type="button"
+                    <p-button
+                        label="Add To Cart"
                         icon="pi pi-shopping-cart"
-                        label="Thêm vào giỏ"
-                        class="product-button">
-                    </button>
+                        (onClick)="addToCart(product)">
+                    </p-button>
                 </div>
             </p-card>
         </div>

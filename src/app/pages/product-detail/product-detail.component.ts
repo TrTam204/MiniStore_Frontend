@@ -5,7 +5,7 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
@@ -19,7 +19,8 @@ export class ProductDetailComponent implements OnInit
     product?: Product;
     constructor(
         private route: ActivatedRoute,
-        private productService: ProductService)
+        private productService: ProductService,
+        private cartService: CartService)
     {
     }
     ngOnInit(): void
@@ -27,5 +28,14 @@ export class ProductDetailComponent implements OnInit
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.productService.getById(id).subscribe((res) =>
         {this.product = res;});
+    }
+    addToCart(product: any) {
+    this.cartService.addToCart(
+    product.id,
+    product.name,
+    product.imageUrl,
+    product.sellPrice
+    );
+        console.log('Đã thêm vào cart');
     }
 }

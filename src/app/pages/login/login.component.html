@@ -1,0 +1,56 @@
+<div class="login-wrapper">
+
+  <div class="login-card">
+
+    <div class="login-header">
+
+      <h1 class="logo-title">
+        MiniStore
+      </h1>
+
+      <p class="login-subtitle">
+        Đăng nhập để tiếp tục mua sắm
+      </p>
+
+    </div>
+
+    <div class="login-form">
+
+      <label class="input-label">
+        Email đăng nhập
+      </label>
+
+      <div class="input-wrapper">
+
+        <i class="pi pi-envelope"></i>
+
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="usernameInput"
+          placeholder="Nhập email..."
+          (keyup.enter)="onLogin()" />
+
+      </div>
+
+      <p-button
+        [label]="isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'"
+        icon="pi pi-sign-in"
+        styleClass="login-btn"
+        [disabled]="isLoading"
+        (onClick)="onLogin()">
+      </p-button>
+
+    </div>
+
+    <div class="login-note">
+
+      <p>Fake login bằng LocalStorage</p>
+
+      <p>Sử dụng email đã có trong database</p>
+
+    </div>
+
+  </div>
+
+</div>
