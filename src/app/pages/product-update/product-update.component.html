@@ -4,7 +4,7 @@
             Edit Product
         </div>
         <form>
-<form [formGroup]="form" (ngSubmit)="submit()" style="width: 70%; margin: auto;">
+<form [formGroup]="form" (ngSubmit)="onSaveProduct()" style="width: 70%; margin: auto;">
   <div class="form-control">
     <label for="name">Name</label>
     <div>
@@ -14,28 +14,37 @@
         formControlName="name"
         placeholder="Name"
       />
+      @if (form.get('name')?.invalid && form.get('name')?.touched) {
+        <small class="text-red-500" style="color: red;">Vui lòng nhập tên sản phẩm!</small>
+      }
     </div>
   </div>
     <div class="form-control">
-    <label for="importprice">Import Price</label>
+    <label for="importPrice">Import Price</label>
     <div>
       <input
-        id="importprice"
+        id="importPrice"
         type="number"
-        formControlName="importprice"
+        formControlName="importPrice"
         placeholder="Import Price"
       />
+      @if (form.get('importPrice')?.invalid && form.get('importPrice')?.touched) {
+        <small class="text-red-500" style="color: red;">Vui lòng nhập giá nhập!</small>
+      }
     </div>
   </div>
     <div class="form-control">
-    <label for="sellprice">Sell Price</label>
+    <label for="sellPrice">Sell Price</label>
     <div>
       <input
-        id="sellprice"
+        id="sellPrice"
         type="number"
-        formControlName="sellprice"
+        formControlName="sellPrice"
         placeholder="Sell Price"
       />
+      @if (form.get('sellPrice')?.invalid && form.get('sellPrice')?.touched) {
+        <small class="text-red-500" style="color: red;">Vui lòng nhập giá bán!</small>
+      }
     </div>
   </div>
   <div class="form-control">
@@ -57,6 +66,9 @@
             formControlName="quantity"
             placeholder="Quantity"
           />
+          @if (form.get('quantity')?.invalid && form.get('quantity')?.touched) {
+            <small class="text-red-500" style="color: red;">Vui lòng nhập số lượng!</small>
+          }
         </div>
     </div>
   <div class="form-control">
@@ -78,6 +90,9 @@
         formControlName="categoryId"
         placeholder="Category ID"
       />
+      @if (form.get('categoryId')?.invalid && form.get('categoryId')?.touched) {
+        <small class="text-red-500" style="color: red;">Vui lòng nhập ID danh mục!</small>
+      }
     </div>
     </div>
 <div class="btn-group">

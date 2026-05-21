@@ -7,15 +7,10 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class CartService {
-
   private cart: Cart | null = null;
-
   constructor(private userService: UserService) {}
-
   initializeCart() {
-
     const currentUserId = this.userService.getCurrentUserId();
-
     if (!currentUserId) {
       return;
     }
@@ -25,7 +20,6 @@ export class CartService {
       cartDetails: []
     };
   }
-
   addToCart(
     productId: number,
     productName: string,
@@ -50,7 +44,7 @@ export class CartService {
         productId: productId,
         productName: productName,
         imageUrl: imageUrl,
-        quantity: 1,
+        quantity: 1,  
         price: price
       };
       this.cart.cartDetails.push(newCartDetail);
@@ -60,38 +54,27 @@ export class CartService {
     return this.cart;
   }
   increaseQuantity(productId: number) {
-
   const item = this.cart?.cartDetails.find(
     x => x.productId === productId
   );
-
   if (item) {
     item.quantity++;
   }
-
 }
-
 decreaseQuantity(productId: number) {
-
   const item = this.cart?.cartDetails.find(
     x => x.productId === productId
   );
-
   if (!item) {
     return;
   }
-
   if (item.quantity > 1) {
-
     item.quantity--;
-
   } else {
-
     this.cart!.cartDetails =
       this.cart!.cartDetails.filter(
         x => x.productId !== productId
       );
-
   }
 }
 }

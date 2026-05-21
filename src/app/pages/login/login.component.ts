@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,7 +18,8 @@ export class LoginComponent {
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {}
 
   onLogin() {
@@ -29,12 +30,19 @@ export class LoginComponent {
         .subscribe({
           next: (userFromBackend) => {
             this.userService.login(userFromBackend.id);
-            alert(
-              `Chào mừng ${userFromBackend.fullName} đã quay lại!`);
-          this.router.navigate(['/']);
-        },
-        error: (err) => {
-          alert('Email này không tồn tại trong hệ thống!');
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Thành công',
+              detail: `Chào mừng ${userFromBackend.fullName} đã quay lại!`
+            });
+            this.router.navigate(['/']);
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Lỗi',
+              detail: 'Email này không tồn tại trong hệ thống!'
+            });
           console.error(err);
           this.isLoading = false;
           },
@@ -43,7 +51,11 @@ export class LoginComponent {
         }
       });
     } else {
-      alert('Vui lòng nhập Email!');
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Cảnh báo',
+        detail: 'Vui lòng nhập Email!'
+      });
     }
   }
   logout() {

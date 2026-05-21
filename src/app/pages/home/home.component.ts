@@ -10,6 +10,7 @@ import { ChipModule } from 'primeng/chip';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {CartService} from '../../services/cart.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit
         private router: Router,
         private cartService: CartService,
         private categoryService: CategoryService,
-        private userService: UserService)
+        private userService: UserService,
+        private messageService: MessageService)
         {
         }
     ngOnInit(): void
@@ -63,6 +65,11 @@ export class HomeComponent implements OnInit
         product.sellPrice
         );
         console.log('Đã thêm vào cart');
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Thành công',
+            detail: `Đã thêm ${product.name} vào giỏ hàng!`
+        });
     }
     selectCategory(categoryId: number): void
     {
