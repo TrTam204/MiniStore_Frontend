@@ -22,7 +22,6 @@ export class LoginComponent {
     private messageService: MessageService
   ) {}
 
-  
   onLogin() {
     if (this.usernameInput.trim() !== '') {
       this.isLoading = true;
@@ -30,7 +29,7 @@ export class LoginComponent {
         .getUserByEmail(this.usernameInput)
         .subscribe({
           next: (userFromBackend) => {
-            this.userService.login(userFromBackend.id);
+            this.userService.login(userFromBackend.id, userFromBackend.email);
             this.messageService.add({
               severity: 'success',
               summary: 'Thành công',

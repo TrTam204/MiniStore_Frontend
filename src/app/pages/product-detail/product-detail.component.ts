@@ -7,6 +7,8 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { CartService } from '../../services/cart.service';
 import { MessageService } from 'primeng/api';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
@@ -22,7 +24,9 @@ export class ProductDetailComponent implements OnInit
         private route: ActivatedRoute,
         private productService: ProductService,
         private cartService: CartService,
-        private messageService: MessageService)
+        private messageService: MessageService,
+        private userService: UserService,
+        private router: Router)
     {
     }
     ngOnInit(): void
@@ -32,16 +36,26 @@ export class ProductDetailComponent implements OnInit
         {this.product = res;});
     }
     addToCart(product: any) {
-    this.cartService.addToCart(
-    product.id,
-    product.name,
-    product.imageUrl,
-    product.sellPrice
-    );
-        console.log('Đã thêm vào cart');
-    this.messageService.add({
-        severity: 'success',
-        summary: 'Thành công',
-        detail: `Đã thêm ${product.name} vào giỏ hàng!`
-    });
+        const currentUserId = this.userService.getCurrentUserId();
+        if (!currentUserId) {
+            this.messageService.add({
+            severity: 'warn',
+            summary: 'Thông báo',
+            detail: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!'
+            });
+            this.router.navigate(['/login']);
+            return;
+        }
+        this.cartService.addToCart(
+            product.id,
+            product.name,
+            product.imageUrl,
+            product.sellPrice
+        );
+        this.messageService.add({
+            severity: 'success',
+            summary: 'Thành công',
+            detail: `Đã thêm ${product.name} vào giỏ hàng!`
+        });
+    
 }}

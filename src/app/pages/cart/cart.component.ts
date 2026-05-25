@@ -16,9 +16,18 @@ export class CartComponent implements OnInit {
     private cartService: CartService
   ) {}
   ngOnInit(): void {
+    this.loadCart();
+  }
+  loadCart() {
     this.cart = this.cartService.getCart();
     console.log(this.cart);
   }
-increaseQuantity(productId: number) {this.cartService.increaseQuantity(productId);}
-decreaseQuantity(productId: number) {this.cartService.decreaseQuantity(productId);}
+increaseQuantity(productId: number) {
+    this.cartService.increaseQuantity(productId);
+    this.loadCart();
+  }
+decreaseQuantity(productId: number) {
+    this.cartService.decreaseQuantity(productId);
+    this.loadCart();
+  }
 }

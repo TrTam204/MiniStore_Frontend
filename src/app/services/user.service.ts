@@ -14,15 +14,19 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/by-email?email=${email}`);
   }
 
-  login(userId: number) {
+  login(userId: number, email: string): void {
     localStorage.setItem('currentUserId', userId.toString());
+    localStorage.setItem('currentUserEmail', email);
     console.log('Đã đăng nhập với ID:', userId);
   }
 
   logout() {
     localStorage.removeItem('currentUserId');
+    localStorage.removeItem('currentUserEmail');
   }
-
+  getCurrentUserEmail(): string | null {
+    return localStorage.getItem('currentUserEmail');
+  }
   getCurrentUserId(): number | null {
     const id = localStorage.getItem('currentUserId');
     return id ? parseInt(id, 10) : null;

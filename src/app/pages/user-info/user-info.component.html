@@ -1,1 +1,6 @@
-<p>user-info works!</p>
+@if (userService.getCurrentUserEmail()) {
+  <p>Xin chào {{ userService.getCurrentUserEmail() }}!</p>
+  <button (click)="logout()">Logout</button>
+} @else {
+  <a routerLink="/login">Đăng nhập</a>
+}

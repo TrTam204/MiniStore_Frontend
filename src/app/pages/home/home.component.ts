@@ -42,14 +42,6 @@ export class HomeComponent implements OnInit
             console.log('Categories API response:', res);
             this.categories = Array.isArray(res) ? res : [];
         });
-        const currentUserId = this.userService.getCurrentUserId();
-        if (!currentUserId) {
-            console.log('Chưa có user nào đăng nhập. Chuyển hướng sang trang Login...');
-        this.router.navigate(['/login']);
-        return;
-        }
-        console.log('User đang hoạt động hợp lệ có ID là:', currentUserId);
-        {console.log(this.userService.getCurrentUserId());};
         this.productService.getAll().subscribe((res) =>
         {
             console.log('Products API response:', res);
@@ -58,13 +50,22 @@ export class HomeComponent implements OnInit
         });
     }
         addToCart(product: any) {
+        const currentUserId = this.userService.getCurrentUserId();
+        if (!currentUserId) {
+            this.messageService.add({
+            severity: 'warn',
+            summary: 'Thông báo',
+            detail: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!'
+            });
+            this.router.navigate(['/login']);
+            return;
+        }
         this.cartService.addToCart(
-        product.id,
-        product.name,
-        product.imageUrl,
-        product.sellPrice
+            product.id,
+            product.name,
+            product.imageUrl,
+            product.sellPrice
         );
-        console.log('Đã thêm vào cart');
         this.messageService.add({
             severity: 'success',
             summary: 'Thành công',

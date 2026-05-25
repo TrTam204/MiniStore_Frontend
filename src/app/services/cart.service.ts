@@ -9,9 +9,31 @@ import { UserService } from './user.service';
 export class CartService {
   private cart: Cart | null = null;
   constructor(private userService: UserService) {}
+  private getCartKey(userId: number): string {
+  return `cart_user_${userId}`;
+}
+
+private saveCart(): void {
+  if (!this.cart) {
+    return;
+  }
+  localStorage.setItem(
+    this.getCartKey(this.cart.userId),
+    JSON.stringify(this.cart)
+  );
+}
+
+private loadCart(userId: number): Cart | null {
+  const cartData = localStorage.getItem(this.getCartKey(userId));
+  if (!cartData) {
+    return null;
+  }
+  return JSON.parse(cartData) as Cart;
+}
   initializeCart() {
     const currentUserId = this.userService.getCurrentUserId();
     if (!currentUserId) {
+      this.cart = null;
       return;
     }
     this.cart = {
@@ -19,6 +41,7 @@ export class CartService {
       userId: currentUserId,
       cartDetails: []
     };
+      this.saveCart();
   }
   addToCart(
     productId: number,
@@ -49,10 +72,17 @@ export class CartService {
       };
       this.cart.cartDetails.push(newCartDetail);
     }
+    this.saveCart();
   }
   getCart(): Cart | null {
-    return this.cart;
+    const currentUserId = this.userService.getCurrentUserId();
+  if (!currentUserId) {
+    this.cart = null;
+    return null;
   }
+  this.cart = this.loadCart(currentUserId);
+  return this.cart;
+}
   increaseQuantity(productId: number) {
   const item = this.cart?.cartDetails.find(
     x => x.productId === productId
@@ -60,6 +90,7 @@ export class CartService {
   if (item) {
     item.quantity++;
   }
+  this.saveCart();
 }
 decreaseQuantity(productId: number) {
   const item = this.cart?.cartDetails.find(
@@ -76,5 +107,9 @@ decreaseQuantity(productId: number) {
         x => x.productId !== productId
       );
   }
+  this.saveCart();
+}
+clearCurrentCart(): void {
+  this.cart = null;
 }
 }
