@@ -22,6 +22,7 @@ export class LoginComponent {
     private messageService: MessageService
   ) {}
 
+  
   onLogin() {
     if (this.usernameInput.trim() !== '') {
       this.isLoading = true;
@@ -54,15 +55,12 @@ export class LoginComponent {
       this.messageService.add({
         severity: 'warn',
         summary: 'Cảnh báo',
-        detail: 'Vui lòng nhập Email!'
+        detail: 'Vui lòng nhập Email!'  
       });
     }
   }
   logout() {
-
   this.userService.logout();
-
   this.router.navigate(['/login']);
-
 }
 }

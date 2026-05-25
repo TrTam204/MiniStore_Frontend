@@ -29,7 +29,7 @@ export class ProductCreateComponent implements OnInit {
         importPrice: [0, [Validators.required, Validators.min(0)]],
         quantity: [0, [Validators.required, Validators.min(0)]],
         categoryId: [null, Validators.required],
-        ImageUrl: ['', [Validators.required]]
+        imageUrl: ['', [Validators.required]]
         });
     }
     onSaveProduct() {
@@ -55,7 +55,7 @@ export class ProductCreateComponent implements OnInit {
             sellPrice: Number(this.form.value.sellPrice ?? 0),
             importPrice: Number(this.form.value.importPrice ?? 0),
             quantity: Number(this.form.value.quantity ?? 0),
-            imageUrl: this.form.value.ImageUrl ?? '',
+            imageUrl: this.form.value.imageUrl ?? '',
             description: this.form.value.description ?? '',
             categoryId: Number(this.form.value.categoryId ?? 0)
         };
@@ -86,7 +86,7 @@ export class ProductCreateComponent implements OnInit {
         {return;}
     const file = input.files[0];
         this.form.patchValue({
-        ImageUrl: '/assets/' + file.name
+        imageUrl: '/assets/' + file.name
         });
     }
     cancel(): void

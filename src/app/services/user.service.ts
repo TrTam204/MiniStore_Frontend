@@ -7,9 +7,7 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-
   private apiUrl = 'http://localhost:5128/api/Users';
-
   constructor(private http: HttpClient) {}
 
   getUserByEmail(email: string): Observable<User> {
