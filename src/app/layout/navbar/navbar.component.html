@@ -1,49 +1,97 @@
-<div class="navbar">
+    <div class="navbar">
     <div class="navbar-left">
         <div class="logo">
-            MiniStore
+        MiniStore
         </div>
     </div>
+
     <div class="navbar-center">
         <span class="p-input-icon-left search-wrapper">
-            <i class="pi pi-search"></i>
-            <input
-                pInputText
-                type="text"
-                placeholder="  Tìm sản phẩm..." />
+        <i class="pi pi-search"></i>
+        <input
+            pInputText
+            type="text"
+            placeholder="  Tìm sản phẩm..." />
         </span>
     </div>
+
     <div class="navbar-right">
         <nav class="navbar-menu">
-            <a routerLink="/home">
-                Home
-            </a>
-            <a routerLink="/product">
-                Products
-            </a>
-            <a routerLink="/cart">
-                Cart ({{ getCartQuantity() }})
-            </a>
-            <a routerLink="/user-info">
-                User
-            </a>
-            <a routerLink="/login">
-                Login
-            </a>
+        <a routerLink="/home">Home</a>
+        <a routerLink="/product">Products</a>
+        <a routerLink="/user-info">User</a>
+        <a routerLink="/login">Login</a>
         </nav>
+
         <div class="navbar-actions">
-            <button
-                pButton
-                type="button"
-                icon="pi pi-shopping-cart"
-                class="p-button-rounded p-button-text">
-            </button>
-            <button
-                pButton
-                type="button"
-                icon="pi pi-user"
-                class="p-button-rounded p-button-text">
-            </button>
+        <button
+        pButton
+        type="button"
+        class="p-button-rounded p-button-text cart-image-button"
+        (click)="isCartOpen = true">
+        <img
+            src="assets/add-to-cart.png"
+            alt="cart"
+            class="cart-icon-image" />
+        <span class="cart-quantity">
+            (+{{ getCartQuantity() }})
+        </span>
+        </button>
+        <button
+            pButton
+            type="button"
+            icon="pi pi-user"
+            class="p-button-rounded p-button-text">
+        </button>
         </div>
     </div>
+    </div>
+
+    <p-drawer
+    [(visible)]="isCartOpen"
+    position="right"
+    [modal]="true"
+    [dismissible]="true"
+    [blockScroll]="true">
+
+    <h3 class="drawer-title">My Cart</h3>
+
+    <div *ngIf="!cart || cart.cartDetails.length === 0">
+        <p>Giỏ hàng của bạn đang trống.</p>
+    </div>
+
+    <div *ngIf="cart && cart.cartDetails.length > 0">
+        <div
+        class="drawer-cart-item"
+        *ngFor="let item of cart.cartDetails">
+
+        <img
+            [src]="item.imageUrl"
+            alt="product image"
+            class="drawer-product-image" />
+
+        <div class="drawer-product-info">
+            <h4>{{ item.productName }}</h4>
+
+            <p class="drawer-price">
+            Giá: {{ item.price | number }} đ
+            </p>
+
+            <div class="drawer-quantity">
+            <button type="button" class="qty-btn" (click)="decreaseQuantity(item.productId)"> - </button>
+            <span>{{ item.quantity }}</span>
+            <button type="button" class="qty-btn" (click)="increaseQuantity(item.productId)"> + </button>
+            </div>
+
+            <p class="drawer-total">
+            Tổng: {{ item.price * item.quantity | number }} đ
+            </p>
+        </div>
+        </div>
+
+        <div class="cart-summary">
+        <div class="getTotalQuantity"><h4>Tổng số lượng sản phẩm: {{ getCartQuantity() }}</h4></div>
+        <h4>Tổng cộng: <div class="getTotalPrice">{{ getTotalPrice() | number }} đ</div></h4>
+    </div>
 </div>
+    </p-drawer>
