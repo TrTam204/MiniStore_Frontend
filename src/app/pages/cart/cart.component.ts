@@ -22,12 +22,33 @@ export class CartComponent implements OnInit {
     this.cart = this.cartService.getCart();
     console.log(this.cart);
   }
-increaseQuantity(productId: number) {
+  getTotalPrice(): number {
+  if (!this.cart) {
+    return 0;
+  }
+  return this.cart.cartDetails.reduce((total, item) => {
+    return total + item.price * item.quantity;
+  }, 0);
+}
+  increaseQuantity(productId: number) {
     this.cartService.increaseQuantity(productId);
     this.loadCart();
   }
-decreaseQuantity(productId: number) {
-    this.cartService.decreaseQuantity(productId);
-    this.loadCart();
+  decreaseQuantity(productId: number) {
+    if (!this.cart) {
+    return;
   }
+  const item = this.cart.cartDetails.find(x => x.productId === productId);
+  if (!item) {
+    return;
+  }
+  if (item.quantity === 1) {
+    const isConfirmed = confirm('Bạn có muốn xóa sản phẩm này khỏi giỏ hàng không?');
+    if (!isConfirmed) {
+      return;
+    }
+  }
+  this.cartService.decreaseQuantity(productId);
+  this.loadCart();
+}
 }

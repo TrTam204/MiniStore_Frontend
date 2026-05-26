@@ -71,7 +71,11 @@
   font-weight: bold;
   color: #22c55e;
 }
-
+.totalPrice{
+  text-align: right;
+  margin-top: 20px;
+  font-size: 24px;
+  color: #da1212;}
 .empty-cart {
   text-align: center;
   margin-top: 50px;
