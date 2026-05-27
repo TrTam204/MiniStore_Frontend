@@ -56,6 +56,5 @@ export class ProductDetailComponent implements OnInit
             severity: 'success',
             summary: 'Thành công',
             detail: `Đã thêm ${product.name} vào giỏ hàng!`
-        });
-    
+        });    
 }}

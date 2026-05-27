@@ -92,6 +92,12 @@
         <div class="cart-summary">
         <div class="getTotalQuantity"><h4>Tổng số lượng sản phẩm: {{ getCartQuantity() }}</h4></div>
         <h4>Tổng cộng: <div class="getTotalPrice">{{ getTotalPrice() | number }} đ</div></h4>
+        <button
+  type="button"
+  class="checkout-btn"
+  (click)="checkout()">
+  Thanh toán
+</button>
     </div>
 </div>
     </p-drawer>

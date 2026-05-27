@@ -112,4 +112,18 @@ decreaseQuantity(productId: number) {
 clearCurrentCart(): void {
   this.cart = null;
 }
+clearCart(): void {
+  if (!this.cart) {
+    return;
+  }
+  const userId = this.cart.userId;
+  const cartId = this.cart.id;
+  localStorage.removeItem(this.getCartKey(userId));
+  this.cart = {
+    id: cartId,
+    userId: userId,
+    cartDetails: []
+  };
+  this.saveCart();
+}
 }
