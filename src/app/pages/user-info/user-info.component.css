@@ -1,0 +1,146 @@
+.user-info-container {
+  min-height: calc(100vh - 90px);
+  padding: 32px 48px;
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.user-card {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.user-card h2 {
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  font-size: 28px;
+}
+.login-btn{
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: #051ce6;
+  color: white;
+  cursor: pointer;
+}
+.user-card p {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  color: #cbd5e1;
+}
+
+.logout-btn {
+ margin-left: 88.5%;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: #dc2626;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #b91c1c;
+}
+
+.order-history-container {
+  margin-top: 24px;
+}
+
+.order-history-container h2 {
+  margin-bottom: 20px;
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.empty-order {
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 18px;
+  color: #cbd5e1;
+}
+
+.order-card {
+flex-direction: column;
+  background: #0f172a;
+  border: 5px solid #334155;
+  border-radius: 16px;
+  width: 90%;
+  padding: 20px;
+  margin-bottom: 24px;
+  margin-left: 80px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #334155;
+}
+
+.order-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 22px;
+}
+
+.order-header p {
+  margin: 6px 0 0 0;
+  color: #cbd5e1;
+}
+
+.order-total {
+  color: #22c55e;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid #334155;
+  padding: 12px;
+  text-align: left;
+}
+
+.order-table th {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+.order-table td {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+.order-table td:nth-child(2),
+.order-table td:nth-child(3),
+.order-table td:nth-child(4),
+.order-table th:nth-child(2),
+.order-table th:nth-child(3),
+.order-table th:nth-child(4) {
+  text-align: right;
+}
+
+.order-table td:last-child {
+  color: #22c55e;
+  font-weight: bold;
+}

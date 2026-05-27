@@ -1,6 +1,50 @@
 @if (userService.getCurrentUserEmail()) {
-  <p>Xin chào {{ userService.getCurrentUserEmail() }}!</p>
-  <button (click)="logout()">Logout</button>
+  <h1>Xin chào {{ userService.getCurrentUserEmail() }}!</h1>
+<div class="order-history-container">
+  <h3>Lịch sử đơn hàng</h3>
+  <div *ngIf="orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <h3>Đơn hàng #{{ order.orderId }}</h3>
+        <p>Ngày đặt: {{ order.orderDate | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p>Tổng tiền: {{ order.totalPrice | number }} đ</p>
+      </div>
+
+      <table class="order-table">
+        <thead>
+          <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+            <th>Thành tiền</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of order.items">
+            <td>{{ item.productName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price | number }} đ</td>
+            <td>{{ item.price * item.quantity | number }} đ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</div>
+<button
+  type="button"
+  class="auth-btn logout-btn"
+  (click)="logout()">
+  <i class="pi pi-sign-out"></i>
+  Đăng xuất
+</button>
 } @else {
-  <a routerLink="/login">Đăng nhập</a>
+  <div *ngIf="orders.length === 0">
+    <h2>Bạn chưa có đơn hàng nào.</h2>
+    <a routerLink="/login" class="login-btn">
+      Đăng nhập
+    </a>
+  </div>
 }
