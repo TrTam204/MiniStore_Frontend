@@ -7,48 +7,34 @@
       <h1 class="logo-title">
         MiniStore
       </h1>
-
       <p class="login-subtitle">
         Đăng nhập để tiếp tục mua sắm
       </p>
-
     </div>
-
     <div class="login-form">
-
       <label class="input-label">
         Email đăng nhập
       </label>
-
       <div class="input-wrapper">
-
         <i class="pi pi-envelope"></i>
-
         <input
           pInputText
           type="text"
           [(ngModel)]="usernameInput"
           placeholder="Nhập email..." />
-
       </div>
-
       <label class="input-label">
         Mật khẩu
       </label>
-
       <div class="input-wrapper">
-
         <i class="pi pi-lock"></i>
-
         <input
           pInputText
           type="password"
           [(ngModel)]="passwordInput"
           placeholder="Nhập mật khẩu..."
           (keyup.enter)="onLogin()" />
-
       </div>
-
       <p-button
         [label]="isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'"
         icon="pi pi-sign-in"
@@ -56,17 +42,10 @@
         [disabled]="isLoading"
         (onClick)="onLogin()">
       </p-button>
-
     </div>
-
     <div class="login-note">
-
       <p>Đăng nhập bằng JWT</p>
-
       <p>Sử dụng email và mật khẩu đã có trong database</p>
-
     </div>
-
   </div>
-
 </div>
