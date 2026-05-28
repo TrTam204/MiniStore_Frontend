@@ -28,7 +28,23 @@
           pInputText
           type="text"
           [(ngModel)]="usernameInput"
-          placeholder="Nhập email..."
+          placeholder="Nhập email..." />
+
+      </div>
+
+      <label class="input-label">
+        Mật khẩu
+      </label>
+
+      <div class="input-wrapper">
+
+        <i class="pi pi-lock"></i>
+
+        <input
+          pInputText
+          type="password"
+          [(ngModel)]="passwordInput"
+          placeholder="Nhập mật khẩu..."
           (keyup.enter)="onLogin()" />
 
       </div>
@@ -45,9 +61,9 @@
 
     <div class="login-note">
 
-      <p>Fake login bằng LocalStorage</p>
+      <p>Đăng nhập bằng JWT</p>
 
-      <p>Sử dụng email đã có trong database</p>
+      <p>Sử dụng email và mật khẩu đã có trong database</p>
 
     </div>
 

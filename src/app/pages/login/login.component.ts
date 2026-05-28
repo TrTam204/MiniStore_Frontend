@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService, LoginRequest } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -14,6 +15,7 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginComponent {
   usernameInput: string = '';
+  passwordInput: string = '';
   isLoading: boolean = false;
 
   constructor(
@@ -22,44 +24,62 @@ export class LoginComponent {
     private messageService: MessageService
   ) {}
 
-  onLogin() {
-    if (this.usernameInput.trim() !== '') {
-      this.isLoading = true;
-        this.userService
-        .getUserByEmail(this.usernameInput)
-        .subscribe({
-          next: (userFromBackend) => {
-            this.userService.login(userFromBackend.id, userFromBackend.email);
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Thành công',
-              detail: `Chào mừng ${userFromBackend.fullName} đã quay lại!`
-            });
-            this.router.navigate(['/']);
-          },
-          error: (err) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Lỗi',
-              detail: 'Email này không tồn tại trong hệ thống!'
-            });
-          console.error(err);
-          this.isLoading = false;
-          },
-          complete: () => {
-            this.isLoading = false;
-        }
-      });
-    } else {
+  onLogin(): void {
+    if (this.usernameInput.trim() === '') {
       this.messageService.add({
         severity: 'warn',
         summary: 'Cảnh báo',
-        detail: 'Vui lòng nhập Email!'  
+        detail: 'Vui lòng nhập Email!'
       });
+      return;
     }
+
+    if (this.passwordInput.trim() === '') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Cảnh báo',
+        detail: 'Vui lòng nhập mật khẩu!'
+      });
+      return;
+    }
+
+    const request: LoginRequest = {
+      email: this.usernameInput,
+      password: this.passwordInput
+    };
+
+    this.isLoading = true;
+
+    this.userService.loginWithJwt(request).subscribe({
+      next: (res) => {
+        this.userService.login(res.userId, res.email, res.token);
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Thành công',
+          detail: `Đăng nhập thành công!`
+        });
+
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Lỗi',
+          detail: 'Email hoặc mật khẩu không đúng!'
+        });
+
+        console.error(err);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
-  logout() {
-  this.userService.logout();
-  this.router.navigate(['/login']);
-}
+
+  logout(): void {
+    this.userService.logout();
+    this.router.navigate(['/login']);
+  }
 }
