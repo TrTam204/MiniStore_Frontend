@@ -12,21 +12,28 @@ export class OrderService {
   constructor(private http: HttpClient,
               private userService: UserService
   ) { }
+  private getAuthHeaders(): HttpHeaders {
+  const token = this.userService.getToken();
+  return new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+}
   checkout(request: CheckoutRequest): Observable<string> {
   return this.http.post(
     `${this.apiUrl}/checkout`,
     request,
-    { responseType: 'text' }
+    {
+      headers: this.getAuthHeaders(),
+      responseType: 'text'
+    }
   );
 }
- getOrdersByUserId(userId: number): Observable<OrderHistory[]> {
-  const token = this.userService.getToken();
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
-  return this.http.get<OrderHistory[]>(
-    `${this.apiUrl}/history/${userId}`,
-    { headers }
+  getOrdersByUserId(userId: number): Observable<OrderHistory[]> {
+    return this.http.get<OrderHistory[]>(
+      `${this.apiUrl}/history/${userId}`,
+    {
+      headers: this.getAuthHeaders()
+    }
   );
 }
 }
