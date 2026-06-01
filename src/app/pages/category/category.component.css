@@ -1,0 +1,61 @@
+.card {
+    padding: 1.5rem;
+}
+
+h2 {
+    margin-bottom: 1rem;
+}
+
+.button-navigation {
+    display: flex !important;     
+    justify-content: flex-end;    
+    align-items: center;          
+    gap: 14px;                     
+    width: 100%;                  
+    padding: 20px 70px;           
+    box-sizing: border-box;     
+}
+
+.add-category-btn {
+    width: 140px;              
+    height: 45px;               
+    border-radius: 25px;         
+    border: none;                 
+    color: white;                
+    font-weight: 600;             
+    cursor: pointer;            
+    transition: 0.3s;             
+    background: linear-gradient(135deg, #078414, #39e61a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-edit-btn{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    border:none;
+    text-decoration: none;
+}
+
+.custom-delete-btn{
+    background:linear-gradient(135deg,#ef4444,#dc2626);
+    border:none;
+}
+.custom-edit-btn {
+    background-color: #2196F3 !important;
+}
+
+.custom-delete-btn {
+    background-color: #f44336 !important;
+}
+
+.custom-edit-btn:hover,
+.custom-delete-btn:hover{
+    transform:translateY(-2px);
+}
+.action-buttons{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    gap:18px;
+}

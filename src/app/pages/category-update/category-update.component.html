@@ -1,0 +1,42 @@
+<div class="giaodien">
+  <div class="form-container">
+
+    <div class="form-title">
+      Edit Category
+    </div>
+
+    <form
+      [formGroup]="categoryForm"
+      (ngSubmit)="updateCategory()"
+      style="width: 70%; margin: auto;"
+    >
+
+      <div class="form-control">
+        <label for="name">Category Name</label>
+
+        <div>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Category Name"
+          />
+
+          @if (categoryForm.get('name')?.invalid &&
+               categoryForm.get('name')?.touched) {
+            <small style="color: red;">
+              Vui lòng nhập tên danh mục!
+            </small>
+          }
+        </div>
+      </div>
+
+<div class="btn-group">
+  <button type="submit" class="save-btn">Update</button>
+  <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>
+</div>
+
+    </form>
+
+  </div>
+</div>
