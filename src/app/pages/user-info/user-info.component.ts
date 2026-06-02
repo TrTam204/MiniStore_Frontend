@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { OrderHistory } from '../../models/order-history';
 import { OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-info',
   standalone: true,
@@ -18,7 +19,8 @@ import { OnInit } from '@angular/core';
 export class UserInfoComponent implements OnInit {
   orders: OrderHistory[] = [];
   constructor(public userService: UserService, 
-              private orderService: OrderService) {}
+              private orderService: OrderService,
+              private router: Router) {}
   ngOnInit(): void {
   const currentUserId = this.userService.getCurrentUserId();
   if (!currentUserId) {
@@ -34,6 +36,10 @@ export class UserInfoComponent implements OnInit {
     });
 }
   logout(): void {
-    this.userService.logout();  
-  }
+    localStorage.removeItem('token');
+  localStorage.removeItem('role');
+  this.router.navigate(['/home']).then(() => {
+    window.location.reload(); 
+  });
+}
 }

@@ -34,6 +34,7 @@ export class ProductDetailComponent implements OnInit
         const id = Number(this.route.snapshot.paramMap.get('id'));
         this.productService.getById(id).subscribe((res) =>
         {this.product = res;});
+        window.scrollTo(0, 0);
     }
     addToCart(product: any) {
         const currentUserId = this.userService.getCurrentUserId();

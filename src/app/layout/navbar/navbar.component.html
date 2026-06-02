@@ -8,23 +8,50 @@
     <div class="navbar-center">
         <span class="p-input-icon-left search-wrapper">
         <i class="pi pi-search"></i>
-        <input
-            pInputText
-            type="text"
-            placeholder="  Tìm sản phẩm..." />
+        <p-autoComplete
+            [(ngModel)]="searchKeyword"
+            [suggestions]="suggestions"
+            (completeMethod)="filterProducts($event)"
+            (onSelect)="onSelectProduct($event.value)"
+            optionLabel="name"
+            placeholder="Tìm sản phẩm..."
+            [style]="{'width':'600px'}">
+
+            <ng-template let-product pTemplate="item">
+                <div class="product-suggestion">
+                    <img
+                        [src]="product.imageUrl"
+                        [alt]="product.name"
+                        class="suggestion-image">
+
+                    <div class="suggestion-info">
+                        <div class="suggestion-name">
+                            {{ product.name }}
+                        </div>
+
+                        <div class="suggestion-price">
+                            {{ product.sellPrice | number }} đ
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+</p-autoComplete>
         </span>
     </div>
 
     <div class="navbar-right">
         <nav class="navbar-menu">
-        <a routerLink="/home">Home</a>
-        <a routerLink="/product">Products</a>
-        <a routerLink="/category">Categories</a>
-        <a routerLink="/user-info">User</a>
-        <a routerLink="/login">Login</a>
+        <a routerLink="/home">
+        <img src="assets/home.png" alt="Home" class="nav-icon"></a>
+        <a *ngIf="isLoggedIn" routerLink="/user-info">
+        <img src="assets/information.png" alt="User-info" class="nav-icon">
+        </a>
+        <a *ngIf="!isLoggedIn" routerLink="/login">
+        <img src="assets/login.png" alt="Login" class="nav-icon">
+        </a>
         </nav>
 
-        <div class="navbar-actions">
+        <div class="navbar-actions" *ngIf="isLoggedIn" >
         <button
         pButton
         type="button"

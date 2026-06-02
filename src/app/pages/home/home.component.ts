@@ -11,12 +11,13 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {CartService} from '../../services/cart.service';
 import { MessageService } from 'primeng/api';
+import { SearchService } from '../../services/seach.service';
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule, ChipModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+    selector: 'app-home',
+    standalone: true,
+    imports: [CommonModule, CardModule, ButtonModule, ChipModule],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css'
 })
 
 export class HomeComponent implements OnInit
@@ -30,11 +31,28 @@ export class HomeComponent implements OnInit
         private cartService: CartService,
         private categoryService: CategoryService,
         private userService: UserService,
+        private searchService: SearchService,
         private messageService: MessageService)
         {
         }
     ngOnInit(): void
-    {this.loadData();}
+    { this.loadData();
+
+    this.searchService.searchKeyword$
+    .subscribe(keyword =>
+    {
+        if (!keyword || keyword.trim() === '')
+        {
+            this.filteredProducts = this.products;
+            return;
+        }
+
+        this.filteredProducts = this.products.filter(product =>
+            product.name.toLowerCase()
+            .includes(keyword.toLowerCase())
+        );
+    });
+    }
     loadData()
     {
         this.categoryService.getAll().subscribe((res) =>
@@ -49,7 +67,10 @@ export class HomeComponent implements OnInit
         this.filteredProducts = this.products;
         });
     }
-        addToCart(product: any) {
+    addToCart(product: any, event?: Event) {
+        if (event) {
+            event.stopPropagation();
+        }
         const currentUserId = this.userService.getCurrentUserId();
         if (!currentUserId) {
             this.messageService.add({

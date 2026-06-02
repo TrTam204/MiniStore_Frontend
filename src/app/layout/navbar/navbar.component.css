@@ -8,13 +8,18 @@
         background:
             linear-gradient(
             90deg,
-            #1f4890,
-            #0f172a,
-            #661a72
+            #661a72,
+            #724cd0,
+            #3971d1
             );
-
+            
         border-bottom: 1px solid rgba(80, 29, 68, 0.08);
 
+        .nav-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
         position: sticky;
         top: 0;
         z-index: 1000;
@@ -100,12 +105,47 @@
         }
 
         .cart-quantity {
-        color: white;
+        color: rgb(236, 236, 236);
         font-weight: bold;
-        font-size: 16px;
+        font-size: 11px;
         line-height: 1;
         }
+        .search-autocomplete {
+        width: 700px;
+        }
+        :host ::ng-deep .p-autocomplete-input {
+        width: 700px !important;
+        height: 50px !important;
+        font-size: 18px;
+        border-radius: 10px;
+        }
+        .product-suggestion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+        }
 
+        .suggestion-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .suggestion-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .suggestion-name {
+            font-weight: 600;
+        }
+
+        .suggestion-price {
+            color: #00c853;
+            font-size: 14px;
+        }
         /* Drawer */
         .drawer-title {
         margin-bottom: 20px;

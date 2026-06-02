@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DrawerModule } from 'primeng/drawer';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart';
 import { OrderService } from '../../services/order.service';
 import { CheckoutRequest } from '../../models/checkout-request';
 import { MessageService } from 'primeng/api';
+import { filter } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
+import { SearchService } from '../../services/seach.service';
+import { Product } from '../../models/product';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -17,7 +23,9 @@ import { MessageService } from 'primeng/api';
     CommonModule,
     ButtonModule,
     InputTextModule,
-    DrawerModule
+    DrawerModule,
+    AutoCompleteModule,
+    FormsModule
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
@@ -25,11 +33,46 @@ import { MessageService } from 'primeng/api';
 export class NavbarComponent implements OnInit {
   cart: Cart | null = null;
   isCartOpen = false;
+  isLoggedIn = false;
+  products: Product[] = [];
+  suggestions: Product[] = [];
+  searchKeyword: string = '';
   constructor(private cartService: CartService, 
               private orderService: OrderService,
-              private messageService: MessageService) {}
+              private searchService: SearchService,
+              private productService: ProductService,
+              private messageService: MessageService,
+              private router: Router) 
+  {this.router.events.pipe(
+  filter(event => event instanceof NavigationEnd)
+  ).subscribe(() => {
+    this.checkLoginStatus();
+    });}
+  onSearch(): void {
+  this.searchService.setKeyword(this.searchKeyword);
+  }
   ngOnInit(): void {
-    this.refreshCart();
+    this.checkLoginStatus();
+    this.productService.getAll().subscribe(res => {
+      this.products = Array.isArray(res) ? res : [];
+      console.log('Products loaded:', this.products);
+    });
+  }
+  checkLoginStatus(): void {
+    this.isLoggedIn = !!localStorage.getItem('token');
+  }
+  filterProducts(event: any): void {
+    const query = event.query.toLowerCase();
+    this.suggestions = this.products.filter(product =>
+      product.name.toLowerCase().includes(query)
+    );
+    console.log('Suggestions:', this.suggestions);
+  }
+
+  onSelectProduct(product: Product): void {
+    console.log('Selected product:', product);
+    this.searchKeyword = ''; // Reset search
+    this.router.navigate(['/product-detail', product.id]);
   }
   refreshCart(): void {
     this.cart = this.cartService.getCart();

@@ -1,10 +1,11 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { authInterceptor } from './services/auth.interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 export const appConfig: ApplicationConfig =
 {
   providers:
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig =
     }),
     provideRouter(routes),
     provideAnimations(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
     providePrimeNG({
       theme: {
         preset: Aura
