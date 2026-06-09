@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { MessageService } from 'primeng/api';
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/category';
 @Component({
     selector: 'app-product-create',
     standalone: true,
@@ -19,10 +21,12 @@ export class ProductCreateComponent implements OnInit {
         private fb: FormBuilder,
         private router: Router,
         private service: ProductService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private categoryService: CategoryService
     ){}
-    ngOnInit(): void
-    {this.form = this.fb.group({
+    categories: Category[] = [];
+    ngOnInit(): void {
+    this.form = this.fb.group({
         name: ['', Validators.required],
         description: [''],
         sellPrice: [0, [Validators.required, Validators.min(0)]],
@@ -30,8 +34,10 @@ export class ProductCreateComponent implements OnInit {
         quantity: [0, [Validators.required, Validators.min(0)]],
         categoryId: [null, Validators.required],
         imageUrl: ['', [Validators.required]]
-        });
-    }
+    });
+
+    this.loadCategories();
+}
     onSaveProduct() {
         if(this.form.invalid) {
             this.form.markAllAsTouched();
@@ -68,7 +74,7 @@ export class ProductCreateComponent implements OnInit {
                     detail: 'Đã thêm sản phẩm mới!' 
                 });
                 setTimeout(() => {
-                    this.router.navigate(['/product']);
+                    this.router.navigate(['/admin/product']);
                 }, 1000);
         },
         error: (err) => {
@@ -80,6 +86,21 @@ export class ProductCreateComponent implements OnInit {
         }
     });
     }
+    loadCategories(): void {
+    this.categoryService.getAll().subscribe({
+        next: (res) => {
+            this.categories = res;
+        },
+        error: (err) => {
+            console.error('Không load được danh mục:', err);
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Lỗi',
+                detail: 'Không thể tải danh mục!'
+            });
+        }
+    });
+}
     onFileSelected(event: Event): void{
     const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0)
@@ -90,5 +111,5 @@ export class ProductCreateComponent implements OnInit {
         });
     }
     cancel(): void
-    {this.router.navigate(['/product']);}
+    {this.router.navigate(['/admin/product']);}
 }

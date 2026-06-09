@@ -10,13 +10,18 @@ import { ProductsComponent } from './pages/products/products.component';
 import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
 import { UserInfoComponent } from './pages/user-info/user-info.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 // IMPORT CÁC TRANG ADMIN
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { ProductCreateComponent } from './pages/product-create/product-create.component';
 import { ProductUpdateComponent } from './pages/product-update/product-update.component';
 import { CategoriesComponent } from './pages/category/category.component';
 import { CategoryCreateComponent } from './pages/category-create/category-create.component';
 import { CategoryUpdateComponent } from './pages/category-update/category-update.component';
+import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
+import { AdminUserCreateComponent } from './pages/admin-user-create/admin-user-create.component';
+import { AdminUserUpdateComponent } from './pages/admin-user-update/admin-user-update.component';
 
 export const routes: Routes = [
   // ==========================================
@@ -29,6 +34,7 @@ export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
       // User tự xem thông tin cá nhân (Không cần lồng children phức tạp lúc này)
     { path: 'user-info', component: UserInfoComponent }, 
     { path: 'product-detail/:id', component: ProductDetailComponent },
@@ -40,11 +46,11 @@ export const routes: Routes = [
   // ==========================================
     {
     path: 'admin',
-    component: AdminLayoutComponent, 
-    canActivate: [adminGuard], // BẮT BUỘC: Lính canh kiểm tra quyền Admin
+    component: AdminLayoutComponent,
+    canActivate: [adminGuard],
     children: [
-      // Nếu gõ /admin -> Tự động chuyển đến /admin/category
-    { path: '', redirectTo: 'category', pathMatch: 'full' },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: 'dashboard', component: AdminDashboardComponent },
 
       // CRUD Category dành cho Admin
     { path: 'category', component: CategoriesComponent },
@@ -56,6 +62,11 @@ export const routes: Routes = [
     { path: 'product/add', component: ProductCreateComponent },
     { path: 'product/edit/:id', component: ProductUpdateComponent },
     
+    // Quản lý người dùng
+    { path: 'users', component: AdminUsersComponent },
+    { path: 'users/add', component: AdminUserCreateComponent },
+    { path: 'users/edit/:id', component: AdminUserUpdateComponent },
+      
       // GHI CHÚ: Sau này bạn nên tạo một trang AdminProductListComponent
       // để hiển thị bảng sản phẩm dành riêng cho Admin ở đường dẫn: path: 'product'
     ]

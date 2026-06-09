@@ -1,31 +1,17 @@
 import { Injectable } from '@angular/core';
-
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductCreate } from '../models/product-create';
-
 import { ProductUpdate } from '../models/product-update';
 import { Product } from '../models/product';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class ProductService
 {
     private apiUrl = 'http://localhost:5128/api/Products';
-
-    constructor(private http: HttpClient, private userService: UserService){}
-
-    private getAuthHeaders(): HttpHeaders {
-      const token = this.userService.getToken();
-      return new HttpHeaders({
-        Authorization: `Bearer ${token}`
-      });
-    }
-
+    constructor(private http: HttpClient ){}
   getAll(): Observable<Product[]> {
   return this.http.get<Product[]>(this.apiUrl);
   }
@@ -35,20 +21,14 @@ export class ProductService
   }
 
   create(product: ProductCreate): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.post<Product>(this.apiUrl, product);
   }
 
   update(id: number, product: ProductUpdate): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, product, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-      headers: this.getAuthHeaders()
-    });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

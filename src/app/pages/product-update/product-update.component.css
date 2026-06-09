@@ -88,3 +88,24 @@
 .cancel-btn{
     min-width:140px;
 }
+.image-preview {
+    margin-top: 12px;
+}
+
+.image-preview p {
+    color: #e2e8f0;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.image-preview img {
+    width: 160px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.form-control select option {
+    background: #0f172a;
+    color: white;
+}

@@ -2,13 +2,20 @@
     <div class="top-wrapper">
         <div class="sidebar">
             <div class="sidebar-title">Danh mục</div>
-            <div
-                class="category-item"
-                *ngFor="let category of categories"
-                (click)="selectCategory(category.id)">
-                <i class="pi pi-tag"></i>
-                <span>{{ category.name }}</span>
-            </div>
+            <div class="category-list">
+        <div class="category-item" (click)="showAllProducts()">
+            <i class="pi pi-th-large"></i>
+            <span>Tất cả</span>
+        </div>
+
+        <div
+            class="category-item"
+            *ngFor="let category of categories"
+            (click)="selectCategory(category.id)">
+            <i class="pi pi-tag"></i>
+            <span>{{ category.name }}</span>
+        </div>
+    </div>
         </div>
         <div class="hero-banner">
             <div class="hero-content">
@@ -33,7 +40,7 @@
                 <div class="product-content">
                     <div class="product-name"><strong>{{ product.name }}</strong></div>
                     <div class="product-price">{{ product.sellPrice | number }} VNĐ</div>
-                    <div class="product-description">{{ product.description }}</div>
+                    <div class="product-description" [title]="product.description">{{ product.description }}</div>
                     <p-button
                         label="Add To Cart"
                         icon="pi pi-shopping-cart"

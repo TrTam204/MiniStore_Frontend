@@ -1,0 +1,185 @@
+    .dashboard-page {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    }
+
+    .dashboard-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    }
+
+    .dashboard-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    }
+
+    .dashboard-header p {
+    margin: 0.35rem 0 0;
+    color: #94a3b8;
+    }
+
+    .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    }
+
+    .stat-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    }
+
+    .stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    }
+
+    .product-icon {
+    background: rgba(59, 130, 246, 0.18);
+    }
+
+    .category-icon {
+    background: rgba(34, 197, 94, 0.18);
+    }
+
+    .warning-icon {
+    background: rgba(245, 158, 11, 0.18);
+    }
+
+    .money-icon {
+    background: rgba(16, 185, 129, 0.18);
+    }
+
+    .stat-label {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    }
+
+    .stat-content h3 {
+    margin: 0.3rem 0 0;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    }
+
+    .dashboard-actions {
+    margin-top: 1.5rem;
+    }
+
+    .quick-card h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    }
+
+    .quick-card p {
+    margin: 0.35rem 0 1rem;
+    color: #94a3b8;
+    }
+
+    .quick-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    }
+
+    :host ::ng-deep .stat-card,
+    :host ::ng-deep .quick-card {
+    background: #18181b;
+    color: #ffffff;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    :host ::ng-deep .stat-card .p-card-body,
+    :host ::ng-deep .quick-card .p-card-body {
+    padding: 1.25rem;
+    }
+
+    :host ::ng-deep .stat-card .p-card-content,
+    :host ::ng-deep .quick-card .p-card-content {
+    padding: 0;
+    }
+
+    @media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    }
+
+    @media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    }
+    .admin-container {
+    padding: 0rem;
+    }
+
+    .admin-card {
+    max-width: 1300px;
+    margin: 0 auto;
+    }
+
+    .admin-toolbar {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    }
+
+    .page-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    }
+
+    .page-subtitle {
+    margin: 0.25rem 0 0;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    }
+
+    .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+    }
+
+    .summary-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1rem 1.1rem;
+    display: grid;
+    gap: 0.35rem;
+    }
+
+    .summary-card span {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    }
+
+    .summary-card strong {
+    color: #ffffff;
+    font-size: 1.4rem;
+    }
+
+    .empty-message {
+    text-align: center;
+    padding: 2rem;
+    color: #94a3b8;
+    }

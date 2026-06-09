@@ -1,46 +1,86 @@
-<div class="card">
-    <h2>Category Management</h2>
-    <div class="button-navigation">
-        <button routerLink="/category/add" pButton type="button" label="Add Category" icon="pi pi-plus" class="p-button-success add-category-btn"></button>
-    </div>
-    <p-table
-        [value]="categories"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        stripedRows
-        showGridlines>
+<p-card styleClass="admin-card">
+    <p-toolbar styleClass="admin-toolbar">
+        <ng-template pTemplate="start">
+        <div>
+            <h2 class="page-title">Quản lý danh mục</h2>
+            <p class="page-subtitle">Danh sách danh mục sản phẩm trong hệ thống</p>
+        </div>
+        </ng-template>
 
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 100px">ID</th>
-                <th>Name</th>
-                <th style="width: 250px">Action</th>
-            </tr>
+        <ng-template pTemplate="end">
+        <button
+            pButton
+            type="button"
+            label="Thêm danh mục"
+            icon="pi pi-plus"
+            severity="success"
+            routerLink="/admin/category/add">
+        </button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table
+    [value]="categories"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [tableStyle]="{ 'width': '100%', 'table-layout': 'fixed' }"
+    styleClass="category-table compact-table"
+    stripedRows
+    showGridlines>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 90px">ID</th>
+            <th>Tên danh mục</th>
+            <th style="width: 160px">Thao tác</th>
+        </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-category>
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                <div class="action-buttons">
-                    <button 
-                        pButton 
-                        type="button"
-                        [routerLink]="['/category/edit', category.id]"
-                        label="Edit" 
-                        icon="pi pi-pencil"
-                        class="p-button-info custom-edit-btn"></button>
-                    <button 
-                        pButton 
-                        type="button"
-                        (click)="deleteCategory(category.id, category.name)"
-                        label="Delete" 
-                        icon="pi pi-trash"
-                        class="p-button-danger custom-delete-btn"></button>
-                </div>
-                </td>
-            </tr>
+        <tr>
+            <td>
+            {{ category.id }}
+            </td>
+
+            <td class="category-name-cell">
+            {{ category.name }}
+            </td>
+
+            <td>
+            <div class="table-actions">
+                <button
+                pButton
+                type="button"
+                label="Sửa"
+                icon="pi pi-pencil"
+                severity="info"
+                size="small"
+                class="action-btn"
+                [routerLink]="['/admin/category/edit', category.id]">
+                </button>
+
+                <button
+                pButton
+                type="button"
+                label="Xóa"
+                icon="pi pi-trash"
+                severity="danger"
+                size="small"
+                class="action-btn"
+                (click)="deleteCategory(category.id, category.name)">
+                </button>
+            </div>
+            </td>
+        </tr>
         </ng-template>
 
+        <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="3" class="empty-message">
+            Chưa có danh mục nào.
+            </td>
+        </tr>
+        </ng-template>
     </p-table>
-</div>
+</p-card>

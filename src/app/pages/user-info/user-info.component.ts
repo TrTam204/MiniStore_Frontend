@@ -36,10 +36,10 @@ export class UserInfoComponent implements OnInit {
     });
 }
   logout(): void {
-    localStorage.removeItem('token');
-  localStorage.removeItem('role');
+  this.userService.logout();
+
   this.router.navigate(['/home']).then(() => {
-    window.location.reload(); 
+    window.location.reload();
   });
 }
 }

@@ -1,0 +1,61 @@
+<div class="admin-container">
+	<p-card styleClass="admin-card">
+		<p-toolbar styleClass="admin-toolbar">
+			<ng-template pTemplate="start">
+				<div>
+					<h2 class="page-title">Sửa người dùng</h2>
+					<p class="page-subtitle">Cập nhật thông tin tài khoản</p>
+				</div>
+			</ng-template>
+		</p-toolbar>
+
+		<form [formGroup]="form" (ngSubmit)="save()" class="user-form">
+			<div class="form-grid">
+				<div class="form-field">
+					<label for="fullName">Họ tên</label>
+					<input id="fullName" pInputText type="text" formControlName="fullName" placeholder="Nhập họ tên" />
+					@if (form.get('fullName')?.touched && form.get('fullName')?.invalid) {
+						<small class="error-text">Vui lòng nhập họ tên.</small>
+					}
+				</div>
+
+				<div class="form-field">
+					<label for="email">Email</label>
+					<input id="email" pInputText type="email" formControlName="email" placeholder="Nhập email" />
+					@if (form.get('email')?.touched && form.get('email')?.invalid) {
+						<small class="error-text">Vui lòng nhập email hợp lệ.</small>
+					}
+				</div>
+
+				<div class="form-field">
+					<label for="phone">Số điện thoại</label>
+					<input id="phone" pInputText type="text" formControlName="phone" placeholder="Nhập số điện thoại" />
+					@if (form.get('phone')?.touched && form.get('phone')?.invalid) {
+						<small class="error-text">Vui lòng nhập số điện thoại.</small>
+					}
+				</div>
+
+				<div class="form-field">
+					<label for="address">Địa chỉ</label>
+					<input id="address" pInputText type="text" formControlName="address" placeholder="Nhập địa chỉ" />
+					@if (form.get('address')?.touched && form.get('address')?.invalid) {
+						<small class="error-text">Vui lòng nhập địa chỉ.</small>
+					}
+				</div>
+
+				<div class="form-field">
+					<label for="role">Role</label>
+					<select id="role" formControlName="role" class="plain-select">
+						<option value="User">User</option>
+						<option value="Admin">Admin</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="button-row">
+				<button pButton type="submit" label="Lưu" icon="pi pi-check" severity="success"></button>
+				<button pButton type="button" label="Hủy" icon="pi pi-times" severity="secondary" (click)="cancel()"></button>
+			</div>
+		</form>
+	</p-card>
+</div>

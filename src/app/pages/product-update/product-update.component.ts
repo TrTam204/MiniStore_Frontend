@@ -5,6 +5,8 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/category';
 @Component({
   selector: 'app-product-update',
   standalone: true,
@@ -21,7 +23,8 @@ export class ProductUpdateComponent implements OnInit
         private router: Router,
         private service: ProductService,
         private messageService: MessageService,
-        private route: ActivatedRoute  
+        private route: ActivatedRoute,
+        private categoryService: CategoryService  
     ){}
     ngOnInit(): void
     {
@@ -35,8 +38,9 @@ export class ProductUpdateComponent implements OnInit
         categoryId: [null, Validators.required],
         imageUrl: ['', [Validators.required]]
         });
-      this.service.getById(this.id)
-      .subscribe({
+        this.loadCategories();
+        this.service.getById(this.id)
+        .subscribe({
         next: (product: Product) => {
             this.form.patchValue({
                 name: product.name,
@@ -47,6 +51,7 @@ export class ProductUpdateComponent implements OnInit
                 categoryId: product.categoryId,
                 imageUrl: product.imageUrl
             });
+            this.previewImageUrl = product.imageUrl;
             console.log(
                 'Đã load dữ liệu product:',
                 product
@@ -65,6 +70,8 @@ export class ProductUpdateComponent implements OnInit
         }
     });
     }
+    categories: Category[] = [];
+    previewImageUrl: string = '';
     onSaveProduct() {
         if(this.form.invalid) {
             this.form.markAllAsTouched();
@@ -77,9 +84,9 @@ export class ProductUpdateComponent implements OnInit
     const data = this.form.value;
     if (data.importPrice > data.sellPrice) {
         this.messageService.add({
-          severity:'warn', 
-          summary: 'cảnh báo', 
-          detail: 'Giá nhập không được lớn hơn giá bán!'});
+        severity:'warn', 
+        summary: 'cảnh báo', 
+        detail: 'Giá nhập không được lớn hơn giá bán!'});
     }
     const payload: Product =
         {
@@ -101,7 +108,7 @@ export class ProductUpdateComponent implements OnInit
                         detail: 'Đã cập nhật sản phẩm mới!' 
                     });
                 setTimeout(() => {
-                    this.router.navigate(['/product']);
+                    this.router.navigate(['/admin/product']);
                 }, 1000);
         },
         error: (err) => {
@@ -113,6 +120,21 @@ export class ProductUpdateComponent implements OnInit
         }
     });
     }
+    loadCategories(): void {
+    this.categoryService.getAll().subscribe({
+        next: (res) => {
+            this.categories = res;
+        },
+        error: (err) => {
+            console.error('Không load được danh mục:', err);
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Lỗi',
+                detail: 'Không thể tải danh mục!'
+            });
+        }
+    });
+}
     onFileSelected(event: Event): void{
     const input = event.target as HTMLInputElement;
         if (!input.files || input.files.length === 0)
@@ -121,7 +143,8 @@ export class ProductUpdateComponent implements OnInit
         this.form.patchValue({
         imageUrl: '/assets/' + file.name
         });
+        this.previewImageUrl = URL.createObjectURL(file);
     }
     cancel(): void
-    {this.router.navigate(['/product']);}
+    {this.router.navigate(['/admin/product']);}
 }  

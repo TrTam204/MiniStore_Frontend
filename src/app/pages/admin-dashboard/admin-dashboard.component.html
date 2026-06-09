@@ -1,0 +1,131 @@
+<div class="dashboard-page">
+    <div class="dashboard-header">
+      <div>
+        <h2>Dashboard</h2>
+        <p>Tổng quan hệ thống MiniStore</p>
+      </div>
+    </div>
+    <div class="stats-grid">
+    <p-card styleClass="stat-card">
+        <div class="stat-content">
+        <div class="stat-icon product-icon">📦</div>
+
+        <div>
+            <p class="stat-label">Tổng sản phẩm</p>
+            <h4>{{ totalProducts }}</h4>
+        </div>
+        </div>
+    </p-card>
+
+    <p-card styleClass="stat-card">
+        <div class="stat-content">
+        <div class="stat-icon category-icon">📁</div>
+
+        <div>
+            <p class="stat-label">Tổng danh mục</p>
+            <h4>{{ totalCategories }}</h4>
+        </div>
+        </div>
+    </p-card>
+
+    <p-card styleClass="stat-card">
+        <div class="stat-content">
+        <div class="stat-icon warning-icon">⚠️</div>
+
+        <div>
+            <p class="stat-label">Sắp hết hàng</p>
+            <h4>{{ lowStockProducts }}</h4>
+        </div>
+        </div>
+    </p-card>
+
+    <p-card styleClass="stat-card">
+        <div class="stat-content">
+        <div class="stat-icon money-icon">💰</div>
+
+        <div>
+            <p class="stat-label">Giá trị tồn kho</p>
+            <h4>{{ totalInventoryValue | number }} đ</h4>
+        </div>
+        </div>
+    </p-card>
+    </div>
+
+ <div class="admin-container">
+	<p-card styleClass="admin-card">
+		<p-toolbar styleClass="admin-toolbar">
+			<ng-template pTemplate="start">
+				<div>
+					<h2 class="page-title">Báo cáo thống kê</h2>
+					<p class="page-subtitle">Danh sách sản phẩm đã bán cho người dùng</p>
+				</div>
+			</ng-template>
+
+			<ng-template pTemplate="end">
+				<button pButton type="button" label="Xuất Excel" icon="pi pi-file-excel" severity="success" (click)="exportExcel()"></button>
+			</ng-template>
+		</p-toolbar>
+
+		<div class="summary-grid">
+			<div class="summary-card">
+				<span>Tổng đơn hàng</span>
+				<strong>{{ report.totalOrders }}</strong>
+			</div>
+			<div class="summary-card">
+				<span>Tổng sản phẩm đã bán</span>
+				<strong>{{ report.totalProductsSold }}</strong>
+			</div>
+			<div class="summary-card">
+				<span>Tổng doanh thu</span>
+				<strong>{{ report.totalRevenue | number:'1.0-0' }} ₫</strong>
+			</div>
+		</div>
+
+		<p-table
+			[value]="report.items"
+			[rows]="10"
+			[paginator]="true"
+			[rowsPerPageOptions]="[5, 10, 20]"
+			[tableStyle]="{ 'width': '100%', 'table-layout': 'fixed' }"
+			styleClass="report-table compact-table"
+			stripedRows
+			showGridlines>
+
+			<ng-template pTemplate="header">
+				<tr>
+					<th style="width: 90px">Đơn</th>
+					<th style="width: 130px">Ngày đặt</th>
+					<th>Người mua</th>
+					<th>Email</th>
+					<th>Sản phẩm</th>
+					<th>Danh mục</th>
+					<th style="width: 90px">SL</th>
+					<th style="width: 120px">Đơn giá</th>
+					<th style="width: 120px">Thành tiền</th>
+				</tr>
+			</ng-template>
+
+			<ng-template pTemplate="body" let-item>
+				<tr>
+					<td>{{ item.orderId }}</td>
+					<td>{{ item.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
+					<td>{{ item.fullName }}</td>
+					<td>{{ item.email }}</td>
+					<td>{{ item.productName }}</td>
+					<td>{{ item.categoryName }}</td>
+					<td>{{ item.quantity }}</td>
+					<td>{{ item.price | number:'1.0-0' }}</td>
+					<td>{{ item.totalAmount | number:'1.0-0' }}</td>
+				</tr>
+			</ng-template>
+
+			<ng-template pTemplate="emptymessage">
+				<tr>
+					<td colspan="9" class="empty-message">Chưa có dữ liệu báo cáo.</td>
+				</tr>
+			</ng-template>
+		</p-table>
+	</p-card>
+</div>
+
+</div>

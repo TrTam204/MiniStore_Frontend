@@ -7,11 +7,17 @@ import { TableModule } from 'primeng/table';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { CardModule } from 'primeng/card';
+import { ToolbarModule } from 'primeng/toolbar';
 @Component({
   selector: 'app-category',
   standalone: true,
   imports: [
-    TableModule, RouterLink, ButtonModule
+    TableModule,
+    RouterLink,
+    ButtonModule,
+    CardModule,
+    ToolbarModule
   ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css'

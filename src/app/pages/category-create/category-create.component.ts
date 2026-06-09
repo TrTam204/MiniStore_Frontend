@@ -48,12 +48,10 @@ createCategory() {
                     summary: 'Success',
                     detail: 'Category created successfully'
                 });
-
-                this.router.navigate(['/category']);
+                this.router.navigate(['/admin/category']);
             },
             error: (err) => {
                 console.error(err);
-
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Error',
@@ -63,5 +61,5 @@ createCategory() {
         });
 }
     cancel(): void
-    {this.router.navigate(['/category']);}
+    {this.router.navigate(['/admin/category']);}
 }

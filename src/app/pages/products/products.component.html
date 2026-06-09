@@ -1,64 +1,113 @@
-<h1 style="display: flex; justify-content: center;">DANH SÁCH PRODUCTS</h1>
-<div class="button-navigation">
-    <button routerLink="/product/add" class="btn-addproduct">Add Product</button>
-    <button routerLink="/category/add" class="btn-category">Category</button>
-</div>
-<div class="group-cart">
-<div class="header-cart">
-    <div style="color: #fff;" class="col">Image</div>
-    <div style="color: #fff;" class="col">Name</div>
-    <div style="color: #fff;" class="col">Import Price</div>
-    <div style="color: #fff;" class="col">Sell Price</div>
-    <div style="color: #fff;" class="col">Description</div>
-    <div style="color: #fff;" class="col">Category</div>
-    <div style="color: #fff;" class="col">Quantity</div>
-    <div style="color: #fff;" class="col">Action</div>
-</div>
-   <div class="cart-row" *ngFor="let p of products">
-    <div class="col">
-        <img
-        [src]="p.imageUrl"
-        [alt]="p.name"
-        class="product-image">
+    <p-card styleClass="admin-card">
+    <p-toolbar styleClass="admin-toolbar">
+        <ng-template pTemplate="start">
+        <div>
+            <h2 class="page-title">Quản lý sản phẩm</h2>
+            <p class="page-subtitle">Danh sách sản phẩm trong hệ thống</p>
         </div>
-    <div style="color: #fff;" class="col">
-        {{ p.name }}
-    </div>
-    <div style="color: #fff;" class="col">
-        {{ p.importPrice | currency:'VND'}}
-    </div>
-    <div style="color: #fff;"class="col">
-        {{ p.sellPrice| currency:'VND'}}
-    </div>
-    <div style="color: #fff;" class="col">
-        {{ p.description }}
-    </div>
-    <div style="color: #fff;" class="col">
-        {{ p.categoryId }}
-    </div>
-    <div style="color: #fff;" class="col">
-        {{ p.quantity }}
-    </div>
-    <div class="action-buttons">
+        </ng-template>
 
-<div class="action-buttons">
-    <a 
-        pButton 
-        [routerLink]="['/product/edit', p.id]" 
-        label="Edit" 
-        icon="pi pi-pencil" 
-        class="p-button-info custom-edit-btn">
-    </a>
+        <ng-template pTemplate="end">
+        <button
+            pButton
+            type="button"
+            label="Thêm sản phẩm"
+            icon="pi pi-plus"
+            severity="success"
+            routerLink="/admin/product/add">
+        </button>
+    </ng-template>
+    </p-toolbar>
 
-    <button 
-        pButton 
-        type="button" 
-        (click)="delete(p.id)" 
-        label="Delete" 
-        icon="pi pi-trash" 
-        class="p-button-danger custom-delete-btn">
-    </button>
-</div>
-</div>
-</div>
-</div>
+    <p-table
+            [value]="products"
+            [paginator]="true"
+            [rows]="10"
+            [rowsPerPageOptions]="[5, 10, 20]"
+            [tableStyle]="{ 'width': '100%', 'table-layout': 'fixed' }"
+            styleClass="product-table compact-table"
+            stripedRows
+            showGridlines>
+
+        <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 70px">Ảnh</th>
+            <th style="width: 120px">Tên</th>
+            <th style="width: 115px">Giá nhập</th>
+            <th style="width: 115px">Giá bán</th>
+            <th>Mô tả</th>
+            <th style="width: 110px">Danh mục</th>
+            <th style="width: 70px">SL</th>
+            <th style="width: 160px">Thao tác</th>
+        </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-product>
+        <tr>
+            <td>
+            <img
+                [src]="product.imageUrl"
+                [alt]="product.name"
+                class="product-image">
+            </td>
+
+            <td>
+            <strong>{{ product.name }}</strong>
+            </td>
+
+            <td>
+            {{ product.importPrice | currency:'VND':'symbol':'1.0-0' }}
+            </td>
+
+            <td>
+            {{ product.sellPrice | currency:'VND':'symbol':'1.0-0' }}
+            </td>
+
+            <td>
+            <div class="description-text" [title]="product.description">
+            {{ product.description }}
+            </div>
+            </td>
+
+            <td>
+            {{ product.categoryName }}
+            </td>
+
+            <td>
+            {{ product.quantity }}
+            </td>
+        <td>
+        <div class="table-actions">
+            <button
+            pButton
+            type="button"
+            label="Sửa"
+            icon="pi pi-pencil"
+            severity="info"
+            size="small"
+            [routerLink]="['/admin/product/edit', product.id]">
+            </button>
+
+            <button
+            pButton
+            type="button"
+            label="Xóa"
+            icon="pi pi-trash"
+            severity="danger"
+            size="small"
+            (click)="delete(product.id)">
+            </button>
+        </div>
+        </td>
+        </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8" class="empty-message">
+            Chưa có sản phẩm nào.
+            </td>
+        </tr>
+        </ng-template>
+    </p-table>
+    </p-card>

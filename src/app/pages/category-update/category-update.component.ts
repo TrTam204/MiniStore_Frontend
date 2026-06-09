@@ -75,7 +75,7 @@ export class CategoryUpdateComponent implements OnInit {
           detail: 'Đã cập nhật danh mục!'
         });
         setTimeout(() => {
-          this.router.navigate(['/category']);
+          this.router.navigate(['/admin/category']);
         }, 1000);
       },
       error: (err) => {
@@ -90,6 +90,6 @@ export class CategoryUpdateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/category']);
+    this.router.navigate(['/admin/category']);
   }
 }

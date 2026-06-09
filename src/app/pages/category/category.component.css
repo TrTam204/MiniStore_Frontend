@@ -1,61 +1,76 @@
-.card {
-    padding: 1.5rem;
+.admin-card {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
 }
 
-h2 {
-    margin-bottom: 1rem;
+.admin-toolbar {
+  margin-bottom: 1rem;
+  border-radius: 12px;
 }
 
-.button-navigation {
-    display: flex !important;     
-    justify-content: flex-end;    
-    align-items: center;          
-    gap: 14px;                     
-    width: 100%;                  
-    padding: 20px 70px;           
-    box-sizing: border-box;     
+.page-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
-.add-category-btn {
-    width: 140px;              
-    height: 45px;               
-    border-radius: 25px;         
-    border: none;                 
-    color: white;                
-    font-weight: 600;             
-    cursor: pointer;            
-    transition: 0.3s;             
-    background: linear-gradient(135deg, #078414, #39e61a);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.page-subtitle {
+  margin: 0.25rem 0 0;
+  color: #94a3b8;
+  font-size: 0.9rem;
 }
 
-.custom-edit-btn{
-    background:linear-gradient(135deg,#3b82f6,#2563eb);
-    border:none;
-    text-decoration: none;
+.category-name-cell {
+  font-weight: 600;
 }
 
-.custom-delete-btn{
-    background:linear-gradient(135deg,#ef4444,#dc2626);
-    border:none;
-}
-.custom-edit-btn {
-    background-color: #2196F3 !important;
-}
-
-.custom-delete-btn {
-    background-color: #f44336 !important;
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: nowrap;
 }
 
-.custom-edit-btn:hover,
-.custom-delete-btn:hover{
-    transform:translateY(-2px);
+.empty-message {
+  text-align: center;
+  padding: 2rem;
+  color: #94a3b8;
 }
-.action-buttons{
-    display:inline-flex;
-    justify-content:center;
-    align-items:center;
-    gap:18px;
+
+:host ::ng-deep .admin-card .p-card-body {
+  padding: 1rem;
+}
+
+:host ::ng-deep .admin-card .p-card-content {
+  padding: 0;
+}
+
+:host ::ng-deep .admin-toolbar {
+  padding: 0.75rem 1rem;
+}
+
+:host ::ng-deep .category-table .p-datatable-thead > tr > th {
+  padding: 0.65rem 0.75rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .category-table .p-datatable-tbody > tr > td {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  vertical-align: middle;
+  height: 72px;
+}
+
+:host ::ng-deep .category-table .p-paginator {
+  padding: 0.5rem;
+}
+
+:host ::ng-deep .table-actions .action-btn {
+  min-width: 58px;
+  height: 2.25rem;
+  padding: 0 0.65rem;
+  font-size: 0.85rem;
 }

@@ -85,15 +85,21 @@
     <div class="form-control">
     <label for="categoryId">Category</label>
     <div>
-      <input
-        id="categoryId"
-        type="number"
-        formControlName="categoryId"
-        placeholder="Category ID"
-      />
-      @if (form.get('categoryId')?.invalid && form.get('categoryId')?.touched) {
-        <small class="text-red-500" style="color: red;">Vui lòng nhập ID danh mục!</small>
-      }
+        <select id="categoryId" formControlName="categoryId">
+            <option [ngValue]="null">-- Chọn danh mục --</option>
+
+            <option
+                *ngFor="let category of categories"
+                [ngValue]="category.id">
+                {{ category.name }}
+            </option>
+        </select>
+
+        @if (form.get('categoryId')?.invalid && form.get('categoryId')?.touched) {
+            <small class="text-red-500" style="color: red;">
+                Vui lòng chọn danh mục!
+            </small>
+        }
     </div>
     </div>
 <div class="btn-group">

@@ -17,7 +17,10 @@
     backdrop-filter:blur(10px);
     box-shadow:0 10px 40px rgba(0,0,0,0.3);
 }
-
+.form-control select option {
+    background: #0f172a;
+    color: white;
+}
 .form-title{
     text-align:center;
     font-size:36px;

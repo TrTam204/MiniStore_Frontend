@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import {provideAnimations} from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig =
     provideZoneChangeDetection({
     eventCoalescing: true
     }),
-    provideRouter(routes),
+    provideRouter(routes, withInMemoryScrolling({ scrollPositionRestoration: 'top'})),
     provideAnimations(),
     provideHttpClient(withInterceptors([authInterceptor])),
     providePrimeNG({

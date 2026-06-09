@@ -93,6 +93,9 @@ export class HomeComponent implements OnInit
             detail: `Đã thêm ${product.name} vào giỏ hàng!`
         });
     }
+    showAllProducts(): void {
+    this.filteredProducts = this.products;
+    }
     selectCategory(categoryId: number): void
     {
         this.filteredProducts = this.products.filter(
