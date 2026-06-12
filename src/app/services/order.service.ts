@@ -24,4 +24,15 @@ export class OrderService {
     return this.http.get<OrderHistory[]>(
       `${this.apiUrl}/history/${userId}`);
 }
+
+  getAllOrders(): Observable<OrderHistory[]> {
+    return this.http.get<OrderHistory[]>(`${this.apiUrl}`);
 }
+
+  updateOrderStatus(orderId: number, status: string): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/status/${orderId}`, JSON.stringify(status), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+

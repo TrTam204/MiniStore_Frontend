@@ -22,6 +22,7 @@ import { CategoryUpdateComponent } from './pages/category-update/category-update
 import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
 import { AdminUserCreateComponent } from './pages/admin-user-create/admin-user-create.component';
 import { AdminUserUpdateComponent } from './pages/admin-user-update/admin-user-update.component';
+import { AdminOrdersComponent } from './pages/admin-orders/admin-orders.component';
 
 export const routes: Routes = [
   // ==========================================
@@ -66,6 +67,7 @@ export const routes: Routes = [
     { path: 'users', component: AdminUsersComponent },
     { path: 'users/add', component: AdminUserCreateComponent },
     { path: 'users/edit/:id', component: AdminUserUpdateComponent },
+    { path: 'orders', component: AdminOrdersComponent },
       
       // GHI CHÚ: Sau này bạn nên tạo một trang AdminProductListComponent
       // để hiển thị bảng sản phẩm dành riêng cho Admin ở đường dẫn: path: 'product'
@@ -73,7 +75,7 @@ export const routes: Routes = [
 },
 
   // ==========================================
-  // BẪY LỖI: URL KHÔNG TỒN TẠI
+  // URL KHÔNG TỒN TẠI
   // ==========================================
   { path: '**', redirectTo: 'home' }
 ];

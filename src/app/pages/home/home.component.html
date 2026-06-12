@@ -28,7 +28,7 @@
         <div class="product-section-title">SẢN PHẨM</div>
         <div class="product-list">
             <p-card
-                *ngFor="let product of filteredProducts"
+                *ngFor="let product of filteredProducts.slice(first, first + rows)"
                 class="product-card"
                 (click)="goToDetail(product.id!)">
                 <ng-template pTemplate="header">
@@ -40,6 +40,7 @@
                 <div class="product-content">
                     <div class="product-name"><strong>{{ product.name }}</strong></div>
                     <div class="product-price">{{ product.sellPrice | number }} VNĐ</div>
+                    <p-rating [ngModel]="getProductRating(product.id!)" [readonly]="true"></p-rating>
                     <div class="product-description" [title]="product.description">{{ product.description }}</div>
                     <p-button
                         label="Add To Cart"
@@ -49,5 +50,11 @@
                 </div>
             </p-card>
         </div>
+        <p-paginator 
+            [rows]="rows" 
+            [first]="first" 
+            [totalRecords]="filteredProducts.length"
+            (onPageChange)="onPageChange($event)">
+        </p-paginator>
     </div>
 </div>

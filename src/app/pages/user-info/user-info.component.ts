@@ -6,12 +6,14 @@ import { OrderService } from '../../services/order.service';
 import { OrderHistory } from '../../models/order-history';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-user-info',
   standalone: true,
   imports: [
     RouterLink,
-    CommonModule
+    CommonModule,
+    TagModule
   ],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.css'

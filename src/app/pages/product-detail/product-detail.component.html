@@ -1,3 +1,4 @@
+<div *ngIf="product">
 <div
     class="detail-container"
     *ngIf="product">
@@ -17,6 +18,10 @@
         <div class="detail-name">
         {{ product.name }}
         </div>
+        
+        <div style="margin-top: 10px;">
+            <p-rating [ngModel]="productRating" [readonly]="true"></p-rating>
+        </div>
 
         <div class="detail-price">
             Giá: {{ product.sellPrice | number }} VNĐ
@@ -35,4 +40,27 @@
         icon="pi pi-shopping-cart"
         (onClick)="addToCart(product)">
     </p-button>
+</div>
+</div>
+    <div
+        *ngIf="relatedProducts.length > 0"
+        class="related-products">
+        <h3>Sản phẩm liên quan</h3>
+        <div class="related-grid">
+            <div
+                *ngFor="let item of relatedProducts"
+                class="related-card"
+                (click)="goToDetail(item.id)">
+                <img
+                    [src]="item.imageUrl"
+                    [alt]="item.name">
+                <div class="related-name">
+                    {{ item.name }}
+                </div>
+                <div class="related-price">
+                    {{ item.sellPrice | number }} VNĐ
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { Category } from '../../models/category';
@@ -7,6 +8,8 @@ import { CategoryService } from '../../services/category.service';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
+import { PaginatorModule } from 'primeng/paginator';
+import { RatingModule } from 'primeng/rating';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {CartService} from '../../services/cart.service';
@@ -15,7 +18,7 @@ import { SearchService } from '../../services/seach.service';
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, CardModule, ButtonModule, ChipModule],
+    imports: [CommonModule, FormsModule, CardModule, ButtonModule, ChipModule, PaginatorModule, RatingModule],
     templateUrl: './home.component.html',
     styleUrl: './home.component.css'
 })
@@ -25,6 +28,12 @@ export class HomeComponent implements OnInit
     filteredProducts: Product[] = [];
     categories: Category[] = [];
     products: Product[] = [];
+    
+
+    rows: number = 5;
+    first: number = 0;
+
+    productRatings: Map<number, number> = new Map();
     constructor(
         private productService: ProductService,
         private router: Router,
@@ -108,4 +117,16 @@ export class HomeComponent implements OnInit
     }
     goToDetail(id: number): void
     {this.router.navigate(['/product-detail', id]);}
+    
+    onPageChange(event: any): void {
+        this.first = event.first;
+        this.rows = event.rows;
+    }
+    
+    getProductRating(productId: number): number {
+        if (!this.productRatings.has(productId)) {
+            this.productRatings.set(productId, Math.floor(Math.random() * 2) + 4); // Random 4-5 stars
+        }
+        return this.productRatings.get(productId) || 4;
+    }
 }   

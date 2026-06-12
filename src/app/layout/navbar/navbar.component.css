@@ -217,7 +217,13 @@
         font-size: 20px;
         color: #da1212;
         }
-
+        .summary-row.total-row {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 2px solid #334155;
+        color: #da1212;
+        font-size: 20px;
+        }
         .cart-summary {
         margin-top: 20px;
         padding-top: 16px;

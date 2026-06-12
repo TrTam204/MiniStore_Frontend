@@ -118,14 +118,28 @@
         </div>
 
         <div class="cart-summary">
-        <div class="getTotalQuantity"><h4>Tổng số lượng sản phẩm: {{ getCartQuantity() }}</h4></div>
-        <h4>Tổng cộng: <div class="getTotalPrice">{{ getTotalPrice() | number }} đ</div></h4>
-        <button
-  type="button"
-  class="checkout-btn"
-  (click)="checkout()">
-  Thanh toán
-</button>
-    </div>
-</div>
+          <div class="getTotalQuantity"><h4>Tổng số lượng sản phẩm: {{ getCartQuantity() }}</h4></div>
+          <div class="summary-row">
+            <span>Giá sản phẩm:  </span>
+            <span>{{ getTotalPrice() | number }} đ</span>
+          </div>
+          <br>
+          <div class="summary-row">
+            <span>Phí vận chuyển: </span>
+            <span>{{ getShippingFee() | number }} đ</span>
+          </div>
+          <br>
+          <div class="summary-row total-row">
+            <strong>Thanh toán: </strong>
+            <strong>{{ getFinalTotal() | number }} đ</strong>
+          </div>
+          <button
+            type="button"
+            class="checkout-btn"
+            (click)="checkout()">
+            Thanh toán
+          </button>
+        </div>
+      </div>
     </p-drawer>
+    

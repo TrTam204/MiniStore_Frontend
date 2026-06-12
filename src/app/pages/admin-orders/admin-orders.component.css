@@ -1,0 +1,16 @@
+.admin-orders {
+  padding: 1rem;
+}
+
+.page-header {
+  margin-bottom: 1rem;
+}
+
+.status-dropdown {
+  width: 180px;
+  margin-right: 0.5rem;
+}
+
+.update-button {
+  vertical-align: middle;
+}

@@ -7,14 +7,14 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { ToolbarModule } from 'primeng/toolbar';
-
+import { ToastModule } from 'primeng/toast';
 import { UserUpdate } from '../../models/user-update.model';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-admin-user-update',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, CardModule, InputTextModule, ToolbarModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, CardModule, InputTextModule, ToolbarModule, ToastModule],
   templateUrl: './admin-user-update.component.html',
   styleUrl: './admin-user-update.component.css',
   providers: [MessageService]
@@ -92,7 +92,9 @@ export class AdminUserUpdateComponent implements OnInit {
           summary: 'Thành công',
           detail: 'Đã cập nhật người dùng.'
         });
+          setTimeout(() => {
         this.router.navigate(['/admin/users']);
+      }, 800);
       },
       error: (err) => {
         console.error('Update user error:', err);

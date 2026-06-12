@@ -7,6 +7,7 @@ export interface SalesReportItem {
   productId: number;
   productName: string;
   categoryName: string;
+  status?: string;
   quantity: number;
   price: number;
   totalAmount: number;

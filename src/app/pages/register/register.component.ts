@@ -34,7 +34,7 @@ export class RegisterComponent {
       address: ['', [Validators.required]]
     });
   }
-
+  
   register(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();

@@ -71,7 +71,7 @@ export class NavbarComponent implements OnInit {
 
   onSelectProduct(product: Product): void {
     console.log('Selected product:', product);
-    this.searchKeyword = ''; // Reset search
+    this.searchKeyword = '';
     this.router.navigate(['/product-detail', product.id]);
   }
   refreshCart(): void {
@@ -99,6 +99,16 @@ export class NavbarComponent implements OnInit {
       return total + item.price * item.quantity;
     }, 0);
   }
+
+  getShippingFee(): number {
+    const subtotal = this.getTotalPrice();
+    return subtotal >= 500000 ? 0 : 30000;
+  }
+
+  getFinalTotal(): number {
+    return this.getTotalPrice() + this.getShippingFee();
+  }
+
   increaseQuantity(productId: number): void {
     this.cartService.increaseQuantity(productId);
     this.refreshCart();

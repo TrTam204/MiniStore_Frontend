@@ -7,14 +7,14 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageService } from 'primeng/api';
 import { ToolbarModule } from 'primeng/toolbar';
-
+import { ToastModule } from 'primeng/toast';
 import { UserCreate } from '../../models/user-create.model';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-admin-user-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, CardModule, InputTextModule, ToolbarModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule, CardModule, InputTextModule, ToolbarModule, ToastModule],
   templateUrl: './admin-user-create.component.html',
   styleUrl: './admin-user-create.component.css',
   providers: [MessageService]
@@ -43,7 +43,6 @@ export class AdminUserCreateComponent {
       this.form.markAllAsTouched();
       return;
     }
-
     const payload: UserCreate = {
       fullName: this.form.value.fullName ?? '',
       email: this.form.value.email ?? '',
@@ -54,14 +53,16 @@ export class AdminUserCreateComponent {
     };
 
     this.userService.create(payload).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Thành công',
-          detail: 'Đã thêm người dùng mới.'
-        });
-        this.router.navigate(['/admin/users']);
-      },
+        next: () => {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Thành công',
+      detail: 'Đã thêm người dùng mới.'
+    });
+    setTimeout(() => {
+      this.router.navigate(['/admin/users']);
+    }, 800);
+  },
       error: (err) => {
         console.error('Create user error:', err);
         this.messageService.add({
