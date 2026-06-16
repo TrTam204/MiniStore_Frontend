@@ -1,0 +1,39 @@
+<div class="giaodien">
+  <div class="form-container">
+    <div class="form-title">Cập nhật thương hiệu</div>
+
+    <form [formGroup]="brandForm" (ngSubmit)="updateBrand()" style="width: 70%; margin: auto;">
+      <div class="form-control">
+        <label for="name">Tên thương hiệu</label>
+        <div>
+          <input id="name" type="text" formControlName="name" placeholder="Tên thương hiệu" />
+          <small *ngIf="brandForm.get('name')?.invalid && brandForm.get('name')?.touched" style="color: red;">
+            Vui lòng nhập tên thương hiệu!
+          </small>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <label for="country">Quốc gia</label>
+        <div>
+          <input id="country" type="text" formControlName="country" placeholder="Quốc gia" />
+          <small *ngIf="brandForm.get('country')?.invalid && brandForm.get('country')?.touched" style="color: red;">
+            Vui lòng nhập quốc gia!
+          </small>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <label for="description">Mô tả</label>
+        <div>
+          <textarea id="description" formControlName="description" placeholder="Mô tả thương hiệu"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button type="submit" class="save-btn">Lưu</button>
+        <button type="button" class="cancel-btn" (click)="cancel()">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>

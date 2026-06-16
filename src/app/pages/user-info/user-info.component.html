@@ -9,6 +9,12 @@
             <h3>Đơn hàng #{{ order.orderId }}</h3>
             <p>Ngày đặt: {{ order.orderDate | date:'dd/MM/yyyy HH:mm' }}</p>
             <p>Tổng tiền: {{ order.totalPrice | number }} đ</p>
+            <p *ngIf="order.voucherCode">Mã giảm giá: <strong>{{ order.voucherCode }}</strong></p>
+            <p *ngIf="order.discountAmount">Tiền giảm: {{ order.discountAmount | number }} đ</p>
+            <p *ngIf="order.finalAmount">Tổng sau giảm: <strong>{{ order.finalAmount | number }} đ</strong></p>
+          </div>
+          <div class="order-actions">
+            <button pButton type="button" label="Tải hóa đơn PDF" (click)="downloadInvoice(order.orderId)"></button>
           </div>
           <p-tag [value]="order.status" severity="info"></p-tag>
         </div>
@@ -20,15 +26,21 @@
               <th>Số lượng</th>
               <th>Giá</th>
               <th>Thành tiền</th>
+              <th>Voucher giảm</th>
+              <th>Phí vận chuyển</th>
+              <th>Thanh toán</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let item of order.items">
+            <tr *ngFor="let item of order.items; let i = index">
               <td>{{ item.productName }}</td>
               <td>{{ item.quantity }}</td>
               <td>{{ item.price | number }} đ</td>
               <td>{{ item.price * item.quantity | number }} đ</td>
+              <td *ngIf="i === 0" [attr.rowspan]="order.items.length">{{ order.discountAmount ? (order.discountAmount | number) + ' đ' : '0 đ' }}</td>
+              <td *ngIf="i === 0" [attr.rowspan]="order.items.length">{{ getShippingFee(order) | number }} đ</td>
+              <td *ngIf="i === 0" [attr.rowspan]="order.items.length">{{ getDisplayTotal(order) | number }} đ</td>
             </tr>
           </tbody>
         </table>

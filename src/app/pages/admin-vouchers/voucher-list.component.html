@@ -1,0 +1,61 @@
+<p-card styleClass="admin-card">
+  <p-toolbar styleClass="admin-toolbar">
+    <ng-template pTemplate="start">
+      <div>
+        <h2 class="page-title">Quản lý Voucher</h2>
+        <p class="page-subtitle">Danh sách mã giảm giá</p>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <button pButton type="button" label="Tạo voucher" icon="pi pi-plus" severity="success" (click)="create()"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [value]="vouchers" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]" styleClass="voucher-table compact-table" [tableStyle]="{ 'width': '100%', 'table-layout': 'fixed' }" stripedRows showGridlines>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 60px">ID</th>
+        <th style="width: 120px">Code</th>
+        <th>Mô tả</th>
+        <th style="width: 120px">Loại</th>
+        <th style="width: 120px">Giá trị</th>
+        <th style="width: 90px">Số lượt</th>
+        <th style="width: 180px">Áp dụng</th>
+        <th style="width: 90px">Đã dùng</th>
+        <th style="width: 90px">Trạng thái</th>
+        <th style="width: 220px">Thao tác</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-v>
+      <tr>
+        <td>{{ v.id }}</td>
+        <td><strong>{{ v.code }}</strong></td>
+        <td><div class="description-text" [title]="v.description">{{ v.description }}</div></td>
+        <td>{{ v.discountType === 0 ? 'Phần trăm' : 'Số tiền' }}</td>
+        <td>
+          <span *ngIf="v.discountType === 0">{{ v.discountValue }}%</span>
+          <span *ngIf="v.discountType === 1">{{ v.discountValue | currency:'VND':'symbol':'1.0-0' }}</span>
+        </td>
+        <td>{{ v.quantity }}</td>
+        <td>{{ getApplicabilityText(v) }}</td>
+        <td>{{ v.usedCount }}</td>
+        <td><p-tag [value]="v.isActive ? 'Hoạt động' : 'Vô hiệu'" [severity]="v.isActive ? 'success' : 'danger'"></p-tag></td>
+        <td>
+          <div class="table-actions">
+            <button pButton class="action-btn" type="button" label="Sửa" icon="pi pi-pencil" severity="info" size="small" [routerLink]="['/admin/vouchers/edit', v.id]"></button>
+            <button pButton class="action-btn" type="button" label="Xóa" icon="pi pi-trash" severity="danger" size="small" (click)="delete(v.id)"></button>
+            <button pButton class="action-btn" type="button" label="Toggle" (click)="toggle(v.id)" size="small"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="10" class="empty-message">Chưa có voucher nào.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

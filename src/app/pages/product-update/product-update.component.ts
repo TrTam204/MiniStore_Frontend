@@ -7,12 +7,18 @@ import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
+import { BrandService } from '../../services/brand.service';
+import { Brand } from '../../models/brand';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { InputGroupModule } from 'primeng/inputgroup';
 @Component({
   selector: 'app-product-update',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './product-update.component.html',
-  styleUrl: './product-update.component.css'
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, DropdownModule, InputTextModule, ButtonModule, InputGroupModule],
+    templateUrl: './product-update.component.html',
+    styleUrl: './product-update.component.css'
 })
 
 export class ProductUpdateComponent implements OnInit
@@ -24,7 +30,8 @@ export class ProductUpdateComponent implements OnInit
         private service: ProductService,
         private messageService: MessageService,
         private route: ActivatedRoute,
-        private categoryService: CategoryService  
+        private categoryService: CategoryService,
+        private brandService: BrandService
     ){}
     ngOnInit(): void
     {
@@ -36,9 +43,11 @@ export class ProductUpdateComponent implements OnInit
             importPrice: [0, [Validators.required, Validators.min(0)]],
         quantity: [0, [Validators.required, Validators.min(0)]],
         categoryId: [null, Validators.required],
+        brandId: [null, Validators.required],
         imageUrl: ['', [Validators.required]]
         });
         this.loadCategories();
+        this.loadBrands();
         this.service.getById(this.id)
         .subscribe({
         next: (product: Product) => {
@@ -49,6 +58,7 @@ export class ProductUpdateComponent implements OnInit
                 importPrice: product.importPrice,
                 quantity: product.quantity,
                 categoryId: product.categoryId,
+                brandId: product.brandId ?? null,
                 imageUrl: product.imageUrl
             });
             this.previewImageUrl = product.imageUrl;
@@ -71,7 +81,15 @@ export class ProductUpdateComponent implements OnInit
     });
     }
     categories: Category[] = [];
+    brands: Brand[] = [];
     previewImageUrl: string = '';
+
+    getFullImageUrl(url: string | null | undefined): string {
+        if (!url) return '';
+        if (url.startsWith('http') || url.startsWith('data:image')) return url;
+        return `http://localhost:5128${url}`;
+    }
+
     onSaveProduct() {
         if(this.form.invalid) {
             this.form.markAllAsTouched();
@@ -97,7 +115,8 @@ export class ProductUpdateComponent implements OnInit
             quantity: Number(this.form.value.quantity ?? 0),
             imageUrl: this.form.value.imageUrl ?? '',
             description: this.form.value.description ?? '',
-            categoryId: Number(this.form.value.categoryId ?? 0)
+            categoryId: Number(this.form.value.categoryId ?? 0),
+            brandId: this.form.value.brandId ? Number(this.form.value.brandId) : undefined
         };
     console.log('Dữ liệu đạt chuẩn 100%, tiến hành gọi API gửi xuống Backend:', payload); 
     this.service.update(this.id, payload).subscribe({
@@ -135,15 +154,38 @@ export class ProductUpdateComponent implements OnInit
         }
     });
 }
-    onFileSelected(event: Event): void{
-    const input = event.target as HTMLInputElement;
-        if (!input.files || input.files.length === 0)
-        {return;}
-    const file = input.files[0];
-        this.form.patchValue({
-        imageUrl: '/assets/' + file.name
+        loadBrands(): void {
+        this.brandService.getAll().subscribe({
+            next: (res) => {
+                this.brands = res;
+            },
+            error: (err) => {
+                console.error('Không load được thương hiệu:', err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Lỗi',
+                    detail: 'Không thể tải thương hiệu!'
+                });
+            }
         });
-        this.previewImageUrl = URL.createObjectURL(file);
+    }
+    onFileSelect(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) {
+            return;
+        }
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const result = reader.result as string;
+            if (result) {
+                this.form.patchValue({
+                    imageUrl: result
+                });
+                this.previewImageUrl = result;
+            }
+        };
+        reader.readAsDataURL(file);
     }
     cancel(): void
     {this.router.navigate(['/admin/product']);}

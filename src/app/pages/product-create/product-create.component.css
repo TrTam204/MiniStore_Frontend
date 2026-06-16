@@ -91,3 +91,18 @@
 .cancel-btn{
     min-width:140px;
 }
+.p-inputgroup {
+    display: flex !important;
+    width: 100%;
+    gap: 10px;
+}
+
+.p-inputgroup input {
+    flex: 1 !important;
+    width: auto !important;
+}
+
+.p-inputgroup button {
+    flex: 0 0 auto;
+    min-width: 50px !important;
+}

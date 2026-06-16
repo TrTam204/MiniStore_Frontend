@@ -8,15 +8,23 @@ import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CardModule } from 'primeng/card';
+import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [CommonModule, RouterLink, ButtonModule, TableModule, ToolbarModule, CardModule ],
+  imports: [CommonModule, RouterLink, ButtonModule, TableModule, ToolbarModule, CardModule, TagModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
+
+  getFullImageUrl(url: string | null | undefined): string {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('data:image')) return url;
+    return `http://localhost:5128${url}`;
+  }
+
   constructor(private service: ProductService,
               private messageService: MessageService
   ) { }
@@ -27,6 +35,15 @@ export class ProductsComponent implements OnInit {
     this.service.getAll().subscribe((res) => {
       console.log('Products API response:', res);
       this.products = Array.isArray(res) ? res : [];
+      const lowCount = this.products.filter(p => p.quantity > 0 && p.quantity <= 5).length;
+      if (lowCount > 0) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cảnh báo',
+          detail: `Có ${lowCount} sản phẩm sắp hết hàng.`,
+          life: 5000
+        });
+      }
     }); 
 }
 delete(id: number): void {

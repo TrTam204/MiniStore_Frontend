@@ -15,6 +15,7 @@ import { UserService } from '../../services/user.service';
 import {CartService} from '../../services/cart.service';
 import { MessageService } from 'primeng/api';
 import { SearchService } from '../../services/seach.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -28,6 +29,9 @@ export class HomeComponent implements OnInit
     filteredProducts: Product[] = [];
     categories: Category[] = [];
     products: Product[] = [];
+    imagePreview: string | null = null;
+    productForm!: FormGroup;
+    productId!: number;
     
 
     rows: number = 5;
@@ -41,7 +45,8 @@ export class HomeComponent implements OnInit
         private categoryService: CategoryService,
         private userService: UserService,
         private searchService: SearchService,
-        private messageService: MessageService)
+        private messageService: MessageService,
+        private fb: FormBuilder,)
         {
         }
     ngOnInit(): void
@@ -75,6 +80,11 @@ export class HomeComponent implements OnInit
             this.products = Array.isArray(res) ? res : [];
         this.filteredProducts = this.products;
         });
+    }
+    getFullImageUrl(url: string | undefined): string {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('data:image')) return url;
+    return `http://localhost:5128${url}`;
     }
     addToCart(product: any, event?: Event) {
         if (event) {

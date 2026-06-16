@@ -6,7 +6,7 @@
     <div class="detail-image">
 
         <img
-            [src]="product.imageUrl"
+            [src]="getFullImageUrl(product.imageUrl)"
             [alt]="product.name">
 
     </div>
@@ -17,6 +17,13 @@
 
         <div class="detail-name">
         {{ product.name }}
+        </div>
+        <div style="margin-top:6px; color: #94a3b8;">
+            Thương hiệu: {{ product.brandName || 'Đang cập nhật' }}
+        </div>
+        <div style="margin-top:8px;">
+            <p-tag *ngIf="product.isInStock" value="Còn hàng" severity="success"></p-tag>
+            <p-tag *ngIf="product.isInStock === false" value="Hết hàng" severity="danger"></p-tag>
         </div>
         
         <div style="margin-top: 10px;">
@@ -38,6 +45,7 @@
     <p-button
         label="Add To Cart"
         icon="pi pi-shopping-cart"
+        [disabled]="!product.isInStock"
         (onClick)="addToCart(product)">
     </p-button>
 </div>
@@ -52,7 +60,7 @@
                 class="related-card"
                 (click)="goToDetail(item.id)">
                 <img
-                    [src]="item.imageUrl"
+                    [src]="getFullImageUrl(item.imageUrl)"
                     [alt]="item.name">
                 <div class="related-name">
                     {{ item.name }}

@@ -20,7 +20,7 @@
             <ng-template let-product pTemplate="item">
                 <div class="product-suggestion">
                     <img
-                        [src]="product.imageUrl"
+                        [src]="getFullImageUrl(product.imageUrl)"
                         [alt]="product.name"
                         class="suggestion-image">
 
@@ -43,6 +43,9 @@
         <nav class="navbar-menu">
         <a routerLink="/home">
         <img src="assets/home.png" alt="Home" class="nav-icon"></a>
+        <a *ngIf="isLoggedIn" routerLink="/offers" class="nav-icon-link">
+          <img src="assets/voucher.png" alt="Vouchers" class="nav-icon">
+        </a>
         <a *ngIf="isLoggedIn" routerLink="/user-info">
         <img src="assets/information.png" alt="User-info" class="nav-icon">
         </a>
@@ -94,9 +97,9 @@
         *ngFor="let item of cart.cartDetails">
 
         <img
-            [src]="item.imageUrl"
-            alt="product image"
-            class="drawer-product-image" />
+        [src]="getFullImageUrl(item.imageUrl)"
+        alt="product image"
+        class="drawer-product-image" />
 
         <div class="drawer-product-info">
             <h4>{{ item.productName }}</h4>
@@ -124,6 +127,21 @@
             <span>{{ getTotalPrice() | number }} đ</span>
           </div>
           <br>
+                    <div class="voucher-row">
+                       <input type="text" placeholder="Mã giảm giá" [(ngModel)]="voucherCode" class="voucher-input" />
+                        <button pButton type="button" label="Áp dụng" (click)="applyVoucher()"></button>
+                    </div>
+                    <br>
+                    <div *ngIf="voucherPreview">
+                        <div *ngIf="voucherPreview.isValid" class="summary-row">
+                            <span>Giảm giá: </span>
+                            <span>{{ voucherPreview.discountAmount | number }} đ</span>
+                        </div>
+                        <div *ngIf="!voucherPreview.isValid" class="summary-row">
+                            <span style="color:var(--danger)">{{ voucherPreview.message }}</span>
+                        </div>
+                    </div>
+                    <br>
           <div class="summary-row">
             <span>Phí vận chuyển: </span>
             <span>{{ getShippingFee() | number }} đ</span>

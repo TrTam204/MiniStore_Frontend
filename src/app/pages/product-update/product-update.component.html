@@ -13,9 +13,7 @@
         formControlName="name"
         placeholder="Name"
       />
-      @if (form.get('name')?.invalid && form.get('name')?.touched) {
-        <small class="text-red-500" style="color: red;">Vui lòng nhập tên sản phẩm!</small>
-      }
+      <small *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-red-500" style="color: red;">Vui lòng nhập tên sản phẩm!</small>
     </div>
   </div>
     <div class="form-control">
@@ -27,9 +25,7 @@
         formControlName="importPrice"
         placeholder="Import Price"
       />
-      @if (form.get('importPrice')?.invalid && form.get('importPrice')?.touched) {
-        <small class="text-red-500" style="color: red;">Vui lòng nhập giá nhập!</small>
-      }
+      <small *ngIf="form.get('importPrice')?.invalid && form.get('importPrice')?.touched" class="text-red-500" style="color: red;">Vui lòng nhập giá nhập!</small>
     </div>
   </div>
     <div class="form-control">
@@ -41,27 +37,37 @@
         formControlName="sellPrice"
         placeholder="Sell Price"
       />
-      @if (form.get('sellPrice')?.invalid && form.get('sellPrice')?.touched) {
-        <small class="text-red-500" style="color: red;">Vui lòng nhập giá bán!</small>
-      }
+      <small *ngIf="form.get('sellPrice')?.invalid && form.get('sellPrice')?.touched" class="text-red-500" style="color: red;">Vui lòng nhập giá bán!</small>
     </div>
   </div>
   <div class="form-control">
-    <label for="imageFile">Chọn ảnh</label>
-    <div>
+    <label for="imageUrl">Image</label>
+        <div class="p-inputgroup">
         <input
-            id="imageFile"
-            type="file"
-            accept="image/*"
-            (change)="onFileSelected($event)" />
-    </div>
+            pInputText
+            formControlName="imageUrl"
+            placeholder="Paste image URL or upload file"
+        />
 
-    @if (previewImageUrl) {
-        <div class="image-preview">
-            <p>Ảnh hiện tại:</p>
-            <img [src]="previewImageUrl" alt="Ảnh sản phẩm">
-        </div>
-    }
+        <button
+            pButton
+            type="button"
+            icon="pi pi-upload"
+            label="Upload"
+            (click)="imageFileInput.click()">
+        </button>
+    </div>
+    <input
+      #imageFileInput
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onFileSelect($event)"
+    />
+    <div *ngIf="form.get('imageUrl')?.value" class="image-preview" style="margin-top: 1rem;">
+      <p>Ảnh hiện tại:</p>
+      <img [src]="getFullImageUrl(form.get('imageUrl')?.value)" alt="Ảnh sản phẩm" style="max-width: 100%; max-height: 280px; object-fit: contain;" />
+    </div>
 </div>
     <div class="form-control">
         <label for="quantity">Quantity</label>
@@ -72,9 +78,7 @@
             formControlName="quantity"
             placeholder="Quantity"
           />
-          @if (form.get('quantity')?.invalid && form.get('quantity')?.touched) {
-            <small class="text-red-500" style="color: red;">Vui lòng nhập số lượng!</small>
-          }
+          <small *ngIf="form.get('quantity')?.invalid && form.get('quantity')?.touched" class="text-red-500" style="color: red;">Vui lòng nhập số lượng!</small>
         </div>
     </div>
   <div class="form-control">
@@ -100,13 +104,19 @@
             </option>
         </select>
 
-        @if (form.get('categoryId')?.invalid && form.get('categoryId')?.touched) {
-            <small class="text-red-500" style="color: red;">
-                Vui lòng chọn danh mục!
-            </small>
-        }
+        <small *ngIf="form.get('categoryId')?.invalid && form.get('categoryId')?.touched" class="text-red-500" style="color: red;">
+            Vui lòng chọn danh mục!
+          </small>
+        
     </div>
     </div>
+      <div class="form-control">
+      <label for="brandId">Thương hiệu</label>
+      <div>
+        <p-dropdown id="brandId" [options]="brands" optionLabel="name" optionValue="id" formControlName="brandId" placeholder="-- Chọn thương hiệu --" [showClear]="true"></p-dropdown>
+        <small *ngIf="form.get('brandId')?.invalid && form.get('brandId')?.touched" class="text-red-500" style="color: red;">Vui lòng chọn thương hiệu!</small>
+      </div>
+      </div>
 <div class="btn-group">
   <button type="submit" class="save-btn">Save</button>
   <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>

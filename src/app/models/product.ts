@@ -8,4 +8,7 @@ export interface Product
     imageUrl: string;
     description: string;
     categoryId: number;
+    brandId?: number;
+    brandName?: string;
+    isInStock?: boolean;
 }

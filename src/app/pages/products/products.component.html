@@ -35,9 +35,10 @@
             <th style="width: 120px">Tên</th>
             <th style="width: 115px">Giá nhập</th>
             <th style="width: 115px">Giá bán</th>
-            <th>Mô tả</th>
-            <th style="width: 110px">Danh mục</th>
-            <th style="width: 70px">SL</th>
+            <th style="width: 350px">Mô tả</th>
+            <th style="width: 90px">Danh mục</th>
+            <th style="width: 120px">Thương hiệu</th>
+            <th style="width: 130px">Số lượng tồn</th>
             <th style="width: 160px">Thao tác</th>
         </tr>
         </ng-template>
@@ -46,7 +47,7 @@
         <tr>
             <td>
             <img
-                [src]="product.imageUrl"
+                [src]="getFullImageUrl(product.imageUrl)"
                 [alt]="product.name"
                 class="product-image">
             </td>
@@ -72,10 +73,20 @@
             <td>
             {{ product.categoryName }}
             </td>
+            <td>
+            {{ product.brandName || '-' }}
+            </td>
 
             <td>
-            {{ product.quantity }}
-            </td>
+            <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+                <span>{{ product.quantity }}</span>
+                <ng-container>
+                    <p-tag *ngIf="product.quantity > 5" value="Còn hàng" severity="success"></p-tag>
+                    <p-tag *ngIf="product.quantity > 0 && product.quantity <= 5" value="Sắp hết" severity="warn"></p-tag>
+                    <p-tag *ngIf="product.quantity === 0" value="Hết hàng" severity="danger"></p-tag>
+                </ng-container>
+            </div>
+        </td>
         <td>
         <div class="table-actions">
             <button
@@ -104,7 +115,7 @@
 
         <ng-template pTemplate="emptymessage">
         <tr>
-            <td colspan="8" class="empty-message">
+            <td colspan="9" class="empty-message">
             Chưa có sản phẩm nào.
             </td>
         </tr>

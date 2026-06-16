@@ -1,0 +1,246 @@
+<div class="payment-page">
+  <div class="payment-card">
+    <div class="payment-header">
+      <button
+        pButton
+        type="button"
+        label="Quay lại giỏ hàng"
+        icon="pi pi-arrow-left"
+        class="p-button-text"
+        (click)="goBack()">
+      </button>
+
+      <h2>Thanh toán</h2>
+    </div>
+
+    <div class="payment-grid">
+
+      <!-- CỘT TRÁI -->
+      <div class="left-section">
+
+        <!-- THÔNG TIN ĐƠN HÀNG -->
+        <section class="payment-block">
+          <h3>Thông tin đơn hàng</h3>
+
+          <div
+            class="order-item"
+            *ngFor="let item of cart?.cartDetails ?? []">
+
+            <div>
+              <strong>{{ item.productName }}</strong>
+              <div class="muted">
+                x{{ item.quantity }}
+              </div>
+            </div>
+
+            <span>
+              {{ item.price * item.quantity | number }} đ
+            </span>
+          </div>
+
+          <div class="summary-row">
+            <span>Tạm tính</span>
+            <strong>{{ getSubtotal() | number }} đ</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Giảm giá</span>
+            <strong>{{ getDiscount() | number }} đ</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Phí vận chuyển</span>
+            <strong>{{ getShippingFee() | number }} đ</strong>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>Tổng thanh toán</span>
+            <strong>{{ getTotal() | number }} đ</strong>
+          </div>
+        </section>
+
+        <!-- THÔNG TIN GIAO HÀNG -->
+        <section class="payment-block">
+          <h3>Thông tin giao hàng</h3>
+
+          <div class="shipping-mode">
+            <label class="mode-option">
+              <input
+                type="radio"
+                name="shippingMode"
+                value="default"
+                [(ngModel)]="shippingMode"
+                (change)="onShippingModeChange()" />
+              <span>Sử dụng địa chỉ mặc định</span>
+            </label>
+
+            <label class="mode-option">
+              <input
+                type="radio"
+                name="shippingMode"
+                value="custom"
+                [(ngModel)]="shippingMode"
+                (change)="onShippingModeChange()" />
+              <span>Nhập địa chỉ khác</span>
+            </label>
+          </div>
+
+          <div
+            *ngIf="shippingMode === 'default'"
+            class="default-address-card">
+
+            <div
+              *ngIf="isLoadingProfile"
+              class="muted">
+              Đang tải thông tin người dùng...
+            </div>
+
+            <div *ngIf="!isLoadingProfile">
+              <div class="summary-row">
+                <span>Họ tên</span>
+                <strong>{{ shippingName || '—' }}</strong>
+              </div>
+
+              <div class="summary-row">
+                <span>Số điện thoại</span>
+                <strong>{{ shippingPhone || '—' }}</strong>
+              </div>
+
+              <div class="summary-row">
+                <span>Địa chỉ</span>
+                <strong>{{ shippingAddress || '—' }}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="shippingMode === 'custom'"
+            class="shipping-form">
+
+            <label class="field">
+              <span>Họ tên</span>
+              <input
+                pInputText
+                type="text"
+                [(ngModel)]="shippingName"
+                placeholder="Nhập họ tên" />
+            </label>
+
+            <label class="field">
+              <span>Số điện thoại</span>
+              <input
+                pInputText
+                type="text"
+                [(ngModel)]="shippingPhone"
+                placeholder="Nhập số điện thoại" />
+            </label>
+
+            <label class="field">
+              <span>Địa chỉ</span>
+              <input
+                pInputText
+                type="text"
+                [(ngModel)]="shippingAddress"
+                placeholder="Nhập địa chỉ giao hàng" />
+            </label>
+          </div>
+        </section>
+      </div>
+
+      <!-- CỘT PHẢI -->
+      <div class="right-section">
+
+        <section class="payment-block">
+          <h3>Phương thức thanh toán</h3>
+
+          <div class="payment-methods">
+            <label
+              class="method-card"
+              [class.active]="paymentMethod === 'cod'">
+
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="cod"
+                [(ngModel)]="paymentMethod" />
+
+              <div>
+                <strong>COD</strong>
+                <div class="muted">
+                  Thanh toán khi nhận hàng
+                </div>
+              </div>
+            </label>
+
+            <label
+              class="method-card"
+              [class.active]="paymentMethod === 'qr'">
+
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="qr"
+                [(ngModel)]="paymentMethod" />
+
+              <div>
+                <strong>QR Pay</strong>
+                <div class="muted">
+                  Quét mã thanh toán
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <section
+          *ngIf="paymentMethod === 'qr'"
+          class="payment-block">
+
+          <h3>QR VietQR</h3>
+
+          <img
+            [src]="qrUrl"
+            class="qr-image"
+            alt="QR">
+
+          <div class="qr-info">
+            <div>
+              <strong>Ngân hàng:</strong>
+              {{ bankName }}
+            </div>
+
+            <div>
+              <strong>Chủ TK:</strong>
+              {{ accountHolder }}
+            </div>
+
+            <div>
+              <strong>Số TK:</strong>
+              {{ accountNo }}
+            </div>
+          </div>
+        </section>
+
+        <button
+          *ngIf="paymentMethod === 'cod'"
+          pButton
+          type="button"
+          label="Đặt hàng"
+          [loading]="isSubmitting"
+          (click)="placeOrder()">
+        </button>
+
+        <button
+          *ngIf="paymentMethod === 'qr'"
+          pButton
+          type="button"
+          label="Tôi đã thanh toán"
+          [loading]="isSubmitting"
+          (click)="placeOrder()">
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>

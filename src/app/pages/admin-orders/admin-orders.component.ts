@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { OrderHistory } from '../../models/order-history';
 
@@ -20,6 +21,7 @@ import { OrderHistory } from '../../models/order-history';
         TableModule,
         DropdownModule,
         ButtonModule,
+        DialogModule,
         TagModule,
         ToastModule
     ],
@@ -29,17 +31,24 @@ import { OrderHistory } from '../../models/order-history';
     })
     export class AdminOrdersComponent implements OnInit {
     orders: OrderHistory[] = [];
+    displayDetails = false;
+    productForm!: FormGroup;
+    productId!: number;
+    selectedOrder: OrderHistory | null = null;
     statusOptions = [
+    { label: 'Chờ xác nhận thanh toán', value: 'Chờ xác nhận thanh toán' },
+    { label: 'Đã thanh toán', value: 'Đã thanh toán' },
     { label: 'Chờ xác nhận', value: 'Chờ xác nhận' },
     { label: 'Đang xử lý', value: 'Đang xử lý' },
     { label: 'Đang giao hàng', value: 'Đang giao hàng' },
-    { label: 'Đã nhận', value: 'Đã nhận' },
+    { label: 'Hoàn thành', value: 'Hoàn thành' },
     { label: 'Đã hủy', value: 'Đã hủy' }
 ];
 
     constructor(
         private orderService: OrderService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private fb: FormBuilder,
     ) {}
 
     ngOnInit(): void {
@@ -63,24 +72,77 @@ import { OrderHistory } from '../../models/order-history';
     }
 
     updateStatus(order: OrderHistory): void {
-        console.log("Đang cập nhật đơn hàng:", order.orderId, "sang trạng thái:", order.status);
         this.orderService.updateOrderStatus(order.orderId, order.status).subscribe({
-        next: () => {
-            this.messageService.add({
-            severity: 'success',
-            summary: 'Cập nhật thành công',
-            detail: `Đơn hàng #${order.orderId} đã được cập nhật trạng thái.`
-            });
-        },
-        error: (err) => {
-            console.error('Update order status error:', err);
-            this.messageService.add({
-            severity: 'error',
-            summary: 'Lỗi',
-            detail: 'Không thể cập nhật trạng thái đơn hàng.'
-            });
-        }
+            next: () => {
+                this.loadOrders();
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Cập nhật thành công',
+                    detail: `Đơn hàng #${order.orderId} đã được cập nhật trạng thái.`
+                });
+            },
+            error: (err) => {
+                console.error('Update order status error:', err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Lỗi',
+                    detail: 'Không thể cập nhật trạng thái đơn hàng.'
+                });
+            }
         });
+    }
+
+    markAsPaid(order: OrderHistory): void {
+        this.orderService.updateOrderStatus(order.orderId, 'Đã thanh toán').subscribe({
+            next: () => {
+                this.loadOrders();
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Thành công',
+                    detail: `Đơn hàng #${order.orderId} đã được xác nhận thanh toán.`
+                });
+            },
+            error: (err) => {
+                console.error('Update order status error:', err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Lỗi',
+                    detail: 'Không thể xác nhận thanh toán.'
+                });
+            }
+        });
+    }
+
+    isAwaitingPaymentConfirmation(status: string): boolean {
+        return status?.trim() === 'Chờ xác nhận thanh toán';
+    }
+
+    isFinalStatus(status: string): boolean {
+        const normalized = status?.trim().toLowerCase();
+        return normalized === 'hoàn thành' || normalized === 'đã hủy' || normalized === 'đã nhận';
+    }
+
+    getFullImageUrl(url: string | undefined): string {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('data:image')) return url;
+    return `http://localhost:5128${url}`;
+    }
+
+    viewDetails(order: OrderHistory): void {
+        this.selectedOrder = order;
+        this.displayDetails = true;
+    }
+
+    hideDetails(): void {
+        this.displayDetails = false;
+        this.selectedOrder = null;
+    }
+
+    getSelectedOrderProductTotal(): number {
+        if (!this.selectedOrder || !this.selectedOrder.items) {
+            return 0;
+        }
+        return this.selectedOrder.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     }
 
     getSeverity(status: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast' {
@@ -88,19 +150,24 @@ import { OrderHistory } from '../../models/order-history';
         return 'secondary';
     }
     const s = status.trim().toLowerCase();
-        switch (status.toLowerCase()) {
+        switch (s) {
+        case 'chờ xác nhận thanh toán':
+            return 'warn';
+        case 'đã thanh toán':
+            return 'success';
         case 'chờ xác nhận':
             return 'warn';
         case 'đang xử lý':
             return 'info';
         case 'đang giao hàng':
             return 'info';
+        case 'hoàn thành':
         case 'đã nhận':
             return 'success';
         case 'đã hủy':
             return 'danger';
         default:
-            return 'secondary';;
+            return 'secondary';
         }
     }
     }

@@ -1,0 +1,86 @@
+<p-card styleClass="admin-card">
+  <p-toast></p-toast>
+  <p-toolbar styleClass="admin-toolbar">
+    <ng-template pTemplate="start">
+      <div>
+        <h2 class="page-title">Tạo Voucher</h2>
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <div class="p-card-body">
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Code</label>
+        <input pInputText [(ngModel)]="model.code" />
+      </div>
+
+      <div class="form-row">
+        <label>Mô tả</label>
+        <input pInputText [(ngModel)]="model.description" />
+      </div>
+
+      <div class="form-row">
+        <label>Loại</label>
+        <p-dropdown [options]="[{label: 'Phần trăm', value: 'Percentage'},{label:'Số tiền', value:'FixedAmount'}]" [(ngModel)]="model.discountType"></p-dropdown>
+      </div>
+
+      <div class="form-row">
+        <label>Giá trị</label>
+        <p-inputNumber [(ngModel)]="model.discountValue"></p-inputNumber>
+      </div>
+
+      <div class="form-row">
+        <label>Điều kiện đơn hàng tối thiểu</label>
+        <p-inputNumber [(ngModel)]="model.minimumOrderAmount" [min]="0"></p-inputNumber>
+      </div>
+
+      <div *ngIf="model.discountType === 'Percentage'" class="form-row">
+        <label>Mức giảm tối đa</label>
+        <p-inputNumber [(ngModel)]="model.maximumDiscountAmount" [min]="0"></p-inputNumber>
+      </div>
+
+      <div class="form-row">
+        <label>Số lượt</label>
+        <p-inputNumber [(ngModel)]="model.quantity" [min]="1"></p-inputNumber>
+      </div>
+
+      <div class="form-row">
+        <label>Start</label>
+        <p-calendar [(ngModel)]="model.startDate" [showTime]="true" dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+
+      <div class="form-row">
+        <label>End</label>
+        <p-calendar [(ngModel)]="model.endDate" [showTime]="true" dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+
+      <div class="form-row" style="grid-column: 1 / -1">
+        <label>Áp dụng cho</label>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <p-radioButton name="app" [(ngModel)]="applicability" [value]="0"></p-radioButton>
+          <span>Toàn bộ sản phẩm</span>
+          <p-radioButton name="app" [(ngModel)]="applicability" [value]="1"></p-radioButton>
+          <span>Theo danh mục</span>
+          <p-radioButton name="app" [(ngModel)]="applicability" [value]="2"></p-radioButton>
+          <span>Chọn sản phẩm</span>
+        </div>
+      </div>
+
+      <div *ngIf="applicability === 1" class="form-row">
+        <label>Chọn danh mục</label>
+        <p-dropdown [options]="categories" optionLabel="name" optionValue="id" [(ngModel)]="model.applicableCategoryId" (onChange)="onCategoryChange()"></p-dropdown>
+      </div>
+
+      <div *ngIf="applicability === 2" class="form-row" style="grid-column: 1 / -1">
+        <label>Chọn sản phẩm</label>
+        <p-multiSelect [options]="products" optionLabel="name" optionValue="id" [(ngModel)]="model.applicableProductIds" [filter]="true"></p-multiSelect>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button pButton type="button" label="Lưu" icon="pi pi-save" (click)="save()"></button>
+      <button pButton type="button" label="Hủy" class="p-button-secondary" (click)="router.navigate(['/admin/vouchers'])"></button>
+    </div>
+  </div>
+</p-card>

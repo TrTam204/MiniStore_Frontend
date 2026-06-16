@@ -157,8 +157,8 @@
         gap: 14px;
         align-items: center;
 
-        background: #111827;
-        border: 1px solid #334155;
+        background: #e7e6f1;
+        border: 1px solid #9e3278;
         border-radius: 12px;
 
         padding: 12px;
@@ -179,10 +179,12 @@
 
         .drawer-product-info h4 {
         margin: 0 0 8px 0;
+        color: #2e2431;
         }
 
         .drawer-price {
         margin: 0 0 10px 0;
+        color: #2e2431;
         }
 
         .drawer-quantity {
@@ -190,18 +192,20 @@
         align-items: center;
         gap: 10px;
         margin-bottom: 10px;
+        color: #110e0e;
         }
 
         .qty-btn {
         width: 32px;
         height: 32px;
-        border: none;
+        border: 1px solid #9e3278;
         border-radius: 6px;
         cursor: pointer;
         }
 
         .drawer-total {
         margin: 0;
+        color: #2e2431;
         font-weight: bold;
         }
 
@@ -229,8 +233,25 @@
         padding-top: 16px;
         border-top: 1px solid #334155;
         }
+        .voucher-input {
+        width: 65%;            
+        padding: 8px 12px;      
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #495057;
+        border: 2px dashed #ced4da; 
+        border-radius: 8px;      
+        outline: none;
+        transition: all 0.3s ease;
+
+    }
 
 
+        .voucher-input:focus {
+            border-color: #1edc3a; /* Đổi màu viền (dùng màu xanh lá giống biểu đồ của bạn) */
+            background-color: #f2fcf4; /* Nền xanh nhạt cho nổi bật */
+        }
+        
         :host ::ng-deep .p-drawer-right {
         width: 520px;
         }

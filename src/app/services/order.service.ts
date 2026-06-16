@@ -20,6 +20,9 @@ export class OrderService {
     }
   );
 }
+  getInvoice(orderId: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${orderId}/invoice`, { responseType: 'blob' });
+  }
   getOrdersByUserId(userId: number): Observable<OrderHistory[]> {
     return this.http.get<OrderHistory[]>(
       `${this.apiUrl}/history/${userId}`);

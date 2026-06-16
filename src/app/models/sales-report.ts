@@ -4,12 +4,16 @@ export interface SalesReportItem {
   userId: number;
   fullName: string;
   email: string;
-  productId: number;
-  productName: string;
+  productNames: string;
   categoryName: string;
   status?: string;
-  quantity: number;
-  price: number;
+  totalQuantity: number;
+  totalAmount: number;
+}
+
+export interface CategoryBreakdown {
+  categoryName: string;
+  totalQuantity: number;
   totalAmount: number;
 }
 
@@ -18,4 +22,5 @@ export interface SalesReportSummary {
   totalProductsSold: number;
   totalRevenue: number;
   items: SalesReportItem[];
+  categoryBreakdown: CategoryBreakdown[];
 }

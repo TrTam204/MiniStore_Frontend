@@ -33,7 +33,7 @@
                 (click)="goToDetail(product.id!)">
                 <ng-template pTemplate="header">
                     <img
-                        [src]="product.imageUrl"
+                        [src]="getFullImageUrl(product.imageUrl)"
                         [alt]="product.name"
                         class="product-image">
                 </ng-template>

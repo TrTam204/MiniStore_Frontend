@@ -1,0 +1,113 @@
+.payment-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 24px;
+  align-items: start;
+}
+
+.left-section,
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.payment-block {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.total-row {
+  border-top: 1px solid #ddd;
+  padding-top: 12px;
+  margin-top: 16px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.method-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.method-card.active {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.shipping-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.mode-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.default-address-card,
+.shipping-form {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.qr-image {
+  width: 240px;
+  max-width: 100%;
+  display: block;
+  margin: 20px auto;
+}
+
+.qr-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.muted {
+  color: #6b7280;
+}
+
+@media (max-width: 900px) {
+  .payment-grid {
+    grid-template-columns: 1fr;
+  }
+}

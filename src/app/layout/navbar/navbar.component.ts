@@ -9,7 +9,9 @@ import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart';
 import { OrderService } from '../../services/order.service';
+import { VoucherService } from '../../services/voucher.service';
 import { CheckoutRequest } from '../../models/checkout-request';
+import { CheckoutItem } from '../../models/checkout-request';
 import { MessageService } from 'primeng/api';
 import { filter } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
@@ -37,8 +39,11 @@ export class NavbarComponent implements OnInit {
   products: Product[] = [];
   suggestions: Product[] = [];
   searchKeyword: string = '';
+  voucherCode: string = '';
+  voucherPreview: { isValid: boolean; discountAmount: number; finalAmount: number; message: string } | null = null;
   constructor(private cartService: CartService, 
               private orderService: OrderService,
+              private voucherService: VoucherService,
               private searchService: SearchService,
               private productService: ProductService,
               private messageService: MessageService,
@@ -74,6 +79,50 @@ export class NavbarComponent implements OnInit {
     this.searchKeyword = '';
     this.router.navigate(['/product-detail', product.id]);
   }
+
+  applyVoucher(): void {
+    if (!this.voucherCode || this.voucherCode.trim() === '') {
+      this.messageService.add({ severity: 'warn', summary: 'Lưu ý', detail: 'Vui lòng nhập mã giảm giá.' });
+      return;
+    }
+    this.refreshCart();
+    const subtotal = this.getTotalPrice();
+    const cartItems = this.cart?.cartDetails.map<CheckoutItem>(item => ({
+      productId: item.productId,
+      quantity: item.quantity
+    }));
+    
+    // Lấy userId từ localStorage nếu người dùng đã đăng nhập
+    const userIdStr = localStorage.getItem('currentUserId');
+    const userId = userIdStr ? parseInt(userIdStr, 10) : undefined;
+    
+    this.voucherService.apply(this.voucherCode.trim(), subtotal, cartItems, userId).subscribe({
+      next: (res) => {
+        console.log('Voucher apply response:', res);
+        this.voucherPreview = res;
+        if (res.isValid) {
+          this.messageService.add({ severity: 'success', summary: 'Áp dụng thành công', detail: res.message || 'Mã giảm giá đã được áp dụng' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Không thể áp dụng', detail: res.message || 'Mã giảm giá không hợp lệ' });
+        }
+      },
+      error: (err) => {
+        console.error('Voucher error:', err);
+        let errorDetail = 'Không thể kiểm tra voucher.';
+        
+        // Chi tiết lỗi 401
+        if (err.status === 401) {
+          errorDetail = 'Chưa đăng nhập hoặc phiên hết hạn. Vui lòng đăng nhập lại.';
+        } else if (err.error?.message) {
+          errorDetail = err.error.message;
+        } else if (err.statusText) {
+          errorDetail = err.statusText;
+        }
+        
+        this.messageService.add({ severity: 'error', summary: 'Lỗi', detail: errorDetail });
+      }
+    });
+  }
   refreshCart(): void {
     this.cart = this.cartService.getCart();
   }
@@ -106,7 +155,10 @@ export class NavbarComponent implements OnInit {
   }
 
   getFinalTotal(): number {
-    return this.getTotalPrice() + this.getShippingFee();
+    const subtotal = this.getTotalPrice();
+    const shipping = this.getShippingFee();
+    const discount = this.voucherPreview && this.voucherPreview.isValid ? this.voucherPreview.discountAmount : 0;
+    return subtotal + shipping - discount;
   }
 
   increaseQuantity(productId: number): void {
@@ -131,39 +183,27 @@ export class NavbarComponent implements OnInit {
     this.cartService.decreaseQuantity(productId);
     this.refreshCart();
   }
-  checkout(): void {
-  if (!this.cart || this.cart.cartDetails.length === 0) {
-    alert('Giỏ hàng đang trống.');
-    return;
+  getFullImageUrl(url: string | null |undefined): string {
+  if (!url) {
+    return 'assets/no-image.png';
   }
-  const request: CheckoutRequest = {
-    userId: this.cart.userId,
-    items: this.cart.cartDetails.map(item => ({
-      productId: item.productId,
-      quantity: item.quantity
-    }))
-  };
-  this.orderService.checkout(request).subscribe({
-  next: (res) => {
-    this.messageService.add({
-    severity: 'success',
-    summary: 'Thành công',
-    detail: 'Đang xử lý thanh toán...'
-  });
-    this.cartService.clearCart();
-    this.refreshCart();
-    setTimeout(() => {
-    window.location.reload();
-  }, 2500);
-  },
-  error: (err) => {
-    console.log(err);
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Lỗi',
-      detail: 'Thanh toán thất bại. Vui lòng kiểm tra lại.'
+  if (url.startsWith('http') || url.startsWith('data:image')) {
+    return url;
+  }
+  return `http://localhost:5128${url}`;
+  }
+  checkout(): void {
+    if (!this.cart || this.cart.cartDetails.length === 0) {
+      alert('Giỏ hàng đang trống.');
+      return;
+    }
+
+    this.isCartOpen = false;
+    this.router.navigate(['/payment'], {
+      state: {
+        voucherCode: this.voucherPreview && this.voucherPreview.isValid ? this.voucherCode : '',
+        voucherPreview: this.voucherPreview
+      }
     });
   }
-});
-}
 }

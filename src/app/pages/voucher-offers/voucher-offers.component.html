@@ -1,0 +1,94 @@
+<div class="voucher-offers-page">
+  <p-toast></p-toast>
+
+  <div class="page-header">
+    <div>
+      <h2>Ưu đãi dành cho bạn</h2>
+      <p class="subtitle">
+        Các mã giảm giá đang hoạt động, chỉ dành cho khách hàng.
+      </p>
+    </div>
+  </div>
+
+  <div class="voucher-grid">
+    <ng-container *ngFor="let voucher of vouchers">
+      <p-card class="voucher-card">
+
+        <div class="coupon-ribbon">Ưu đãi</div>
+
+        <div class="voucher-body">
+
+          <div class="voucher-top">
+            <div class="voucher-title-wrapper">
+              <h3 class="voucher-title">
+                {{ voucher.description || 'Ưu đãi hấp dẫn' }}
+              </h3>
+            </div>
+
+            <div class="voucher-badge">
+              <p-badge
+                [value]="formatValue(voucher)"
+                severity="success">
+              </p-badge>
+            </div>
+          </div>
+
+          <div class="voucher-code-box">
+            <div class="voucher-code-content">
+              <span class="voucher-code-label">
+                Mã voucher
+              </span>
+
+              <div
+                class="voucher-code"
+                (click)="copyToClipboard(voucher.code)"
+              >
+                {{ voucher.code }}
+              </div>
+            </div>
+          </div>
+
+          <div class="voucher-meta">
+
+            <div class="meta-item">
+              <span class="meta-label">
+                Thời hạn
+              </span>
+
+              <span class="meta-value">
+                {{ voucher.startDate | date:'dd/MM/yyyy' }}
+                -
+                {{ voucher.endDate | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+
+            <div class="meta-item">
+              <span class="meta-label">
+                Chi tiết
+              </span>
+
+              <span class="meta-value">
+                {{ formatDiscountInfo(voucher) }}
+              </span>
+            </div>
+
+            <div class="meta-item">
+              <span class="meta-label">
+                Áp dụng cho
+              </span>
+
+              <span class="meta-value">
+                {{ getApplicabilityText(voucher) }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </p-card>
+    </ng-container>
+
+    <div *ngIf="vouchers.length === 0" class="empty-state">
+      Không có ưu đãi đang hoạt động.
+    </div>
+  </div>
+</div>

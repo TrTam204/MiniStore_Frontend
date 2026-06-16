@@ -11,6 +11,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { UserInfoComponent } from './pages/user-info/user-info.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 // IMPORT CÁC TRANG ADMIN
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
@@ -23,11 +24,19 @@ import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
 import { AdminUserCreateComponent } from './pages/admin-user-create/admin-user-create.component';
 import { AdminUserUpdateComponent } from './pages/admin-user-update/admin-user-update.component';
 import { AdminOrdersComponent } from './pages/admin-orders/admin-orders.component';
+import { BrandsComponent } from './pages/brands/brands.component';
+import { BrandCreateComponent } from './pages/brand-create/brand-create.component';
+import { BrandUpdateComponent } from './pages/brand-update/brand-update.component';
+import { VoucherListComponent } from './pages/admin-vouchers/voucher-list.component';
+import { VoucherCreateComponent } from './pages/admin-vouchers/voucher-create.component';
+import { VoucherEditComponent } from './pages/admin-vouchers/voucher-edit.component';
+import { VoucherOffersComponent } from './pages/voucher-offers/voucher-offers.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 export const routes: Routes = [
   // ==========================================
   // KHU VỰC KHÁCH HÀNG (Dùng vỏ bọc UserLayout - có Navbar/Footer)
-  // ==========================================
+  // =========================================
 {
     path: '', 
     component: UserLayoutComponent, 
@@ -35,10 +44,13 @@ export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
     { path: 'register', component: RegisterComponent },
       // User tự xem thông tin cá nhân (Không cần lồng children phức tạp lúc này)
     { path: 'user-info', component: UserInfoComponent }, 
     { path: 'product-detail/:id', component: ProductDetailComponent },
+    { path: 'offers', component: VoucherOffersComponent },
+    { path: 'payment', component: PaymentComponent },
     ]
 },
 
@@ -58,6 +70,10 @@ export const routes: Routes = [
     { path: 'category/add', component: CategoryCreateComponent },
     { path: 'category/edit/:id', component: CategoryUpdateComponent },
 
+    { path: 'brand', component: BrandsComponent },
+    { path: 'brand/add', component: BrandCreateComponent },
+    { path: 'brand/edit/:id', component: BrandUpdateComponent },
+
       // CRUD Product dành cho Admin (User không được phép thêm sửa xóa)
     { path: 'product', component: ProductsComponent },
     { path: 'product/add', component: ProductCreateComponent },
@@ -68,6 +84,9 @@ export const routes: Routes = [
     { path: 'users/add', component: AdminUserCreateComponent },
     { path: 'users/edit/:id', component: AdminUserUpdateComponent },
     { path: 'orders', component: AdminOrdersComponent },
+    { path: 'vouchers', component: VoucherListComponent },
+    { path: 'vouchers/add', component: VoucherCreateComponent },
+    { path: 'vouchers/edit/:id', component: VoucherEditComponent },
       
       // GHI CHÚ: Sau này bạn nên tạo một trang AdminProductListComponent
       // để hiển thị bảng sản phẩm dành riêng cho Admin ở đường dẫn: path: 'product'

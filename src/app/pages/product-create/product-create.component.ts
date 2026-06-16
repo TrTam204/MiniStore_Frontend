@@ -7,10 +7,17 @@ import { Product } from '../../models/product';
 import { MessageService } from 'primeng/api';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
+import { BrandService } from '../../services/brand.service';
+import { Brand } from '../../models/brand';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { InputGroupModule } from 'primeng/inputgroup';
+
 @Component({
     selector: 'app-product-create',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, DropdownModule, InputTextModule, ButtonModule, InputGroupModule],
     templateUrl: './product-create.component.html',
     styleUrl: './product-create.component.css'
 })
@@ -22,9 +29,18 @@ export class ProductCreateComponent implements OnInit {
         private router: Router,
         private service: ProductService,
         private messageService: MessageService,
-        private categoryService: CategoryService
+        private categoryService: CategoryService,
+        private brandService: BrandService
     ){}
     categories: Category[] = [];
+    brands: Brand[] = [];
+
+    getFullImageUrl(url: string | null | undefined): string {
+        if (!url) return '';
+        if (url.startsWith('http') || url.startsWith('data:image')) return url;
+        return `http://localhost:5128${url}`;
+    }
+
     ngOnInit(): void {
     this.form = this.fb.group({
         name: ['', Validators.required],
@@ -33,10 +49,12 @@ export class ProductCreateComponent implements OnInit {
         importPrice: [0, [Validators.required, Validators.min(0)]],
         quantity: [0, [Validators.required, Validators.min(0)]],
         categoryId: [null, Validators.required],
+            brandId: [null],
         imageUrl: ['', [Validators.required]]
     });
 
     this.loadCategories();
+    this.loadBrands();
 }
     onSaveProduct() {
         if(this.form.invalid) {
@@ -64,6 +82,7 @@ export class ProductCreateComponent implements OnInit {
             imageUrl: this.form.value.imageUrl ?? '',
             description: this.form.value.description ?? '',
             categoryId: Number(this.form.value.categoryId ?? 0)
+            , brandId: this.form.value.brandId ? Number(this.form.value.brandId) : undefined
         };
     console.log('Dữ liệu đạt chuẩn 100%, tiến hành gọi API gửi xuống Backend:', payload);   
     this.service.create(payload).subscribe({
@@ -86,6 +105,21 @@ export class ProductCreateComponent implements OnInit {
         }
     });
     }
+    loadBrands(): void {
+        this.brandService.getAll().subscribe({
+            next: (res) => {
+                this.brands = res;
+            },
+            error: (err) => {
+                console.error('Không load được thương hiệu:', err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Lỗi',
+                    detail: 'Không thể tải thương hiệu!'
+                });
+            }
+        });
+    }
     loadCategories(): void {
     this.categoryService.getAll().subscribe({
         next: (res) => {
@@ -101,14 +135,22 @@ export class ProductCreateComponent implements OnInit {
         }
     });
 }
-    onFileSelected(event: Event): void{
-    const input = event.target as HTMLInputElement;
-        if (!input.files || input.files.length === 0)
-        {return;}
-    const file = input.files[0];
-        this.form.patchValue({
-        imageUrl: '/assets/' + file.name
-        });
+    onFileSelect(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) {
+            return;
+        }
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            const result = reader.result as string;
+            if (result) {
+                this.form.patchValue({
+                    imageUrl: result
+                });
+            }
+        };
+        reader.readAsDataURL(file);
     }
     cancel(): void
     {this.router.navigate(['/admin/product']);}

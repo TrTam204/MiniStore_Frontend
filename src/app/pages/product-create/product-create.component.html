@@ -46,18 +46,34 @@
     </div>
   </div>
   <div class="form-control">
-    <label for="imageFile">Chọn ảnh</label>
-    <div>
-      <input
-        id="imageFile"
-        type="file"
-        accept="image/*"
-        (change)="onFileSelected($event)" />
-      @if (form.get('imageUrl')?.invalid && form.get('imageUrl')?.touched) {
-      <small class="text-red-500" style="color: red;">Bắt buộc phải chọn hình ảnh!</small>
-    }
+    <label for="imageUrl">Image</label>
+        <div class="p-inputgroup">
+        <input
+            pInputText
+            formControlName="imageUrl"
+            placeholder="Paste image URL or upload file"
+        />
+
+        <button
+            pButton
+            type="button"
+            icon="pi pi-upload"
+            label="Upload"
+            (click)="imageFileInput.click()">
+        </button>
     </div>
-</div>
+    <input
+      #imageFileInput
+      type="file"
+      accept="image/*"
+      hidden
+      (change)="onFileSelect($event)"
+    />
+    <div *ngIf="form.get('imageUrl')?.value" class="image-preview" style="margin-top: 1rem;">
+      <img [src]="getFullImageUrl(form.get('imageUrl')?.value)" alt="Preview" style="max-width: 100%; max-height: 280px; object-fit: contain;" />
+    </div>
+    <small *ngIf="form.get('imageUrl')?.invalid && form.get('imageUrl')?.touched" class="text-red-500" style="color: red;">Bắt buộc phải chọn hình ảnh!</small>
+  </div>
     <div class="form-control">
         <label for="quantity">Quantity</label>
         <div>
@@ -102,6 +118,19 @@
         }
     </div>
     </div>
+          <div class="form-control">
+          <label for="brandId">Brand</label>
+          <div>
+            <p-dropdown
+              id="brandId"
+              formControlName="brandId"
+              [options]="brands"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="-- Chọn thương hiệu --">
+            </p-dropdown>
+          </div>
+          </div>
 <div class="btn-group">
   <button type="submit" class="save-btn">Save</button>
   <button type="button" class="cancel-btn" (click)="cancel()">Cancel</button>

@@ -47,6 +47,10 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 
+  getCurrentUserProfile(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/profile`);
+  }
+
   create(request: UserCreate): Observable<User> {
     return this.http.post<User>(this.apiUrl, request);
   }

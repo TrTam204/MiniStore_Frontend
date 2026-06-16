@@ -22,8 +22,9 @@
         <td>
           <p-tag [value]="order.status" [severity]="getSeverity(order.status)"></p-tag>
         </td>
-        <td>{{ order.totalPrice | number }} đ</td>
+        <td>{{ order.finalAmount ? (order.finalAmount | number) : (order.totalPrice | number) }} đ</td>
         <td>
+          <div class="action-buttons">
             <p-dropdown
         [options]="statusOptions"
         [(ngModel)]="order.status"
@@ -31,10 +32,66 @@
         optionValue="value"
         placeholder="Chọn trạng thái"
         class="status-dropdown"
-        appendTo="body"> </p-dropdown>
-          <button pButton type="button" label="Cập nhật" icon="pi pi-refresh" class="update-button" (click)="updateStatus(order)"></button>
+        appendTo="body"
+        [disabled]="isFinalStatus(order.status)"> </p-dropdown>
+            <button *ngIf="isAwaitingPaymentConfirmation(order.status)" pButton type="button" label="Đã thanh toán" icon="pi pi-check" 
+                    class="p-button-success" 
+                    (click)="markAsPaid(order)">
+            </button>
+            <button pButton type="button" label="Cập nhật" icon="pi pi-refresh" 
+                    class="update-button" 
+                    (click)="updateStatus(order)">
+            </button>            
+            <button pButton pRipple type="button" label="Chi tiết" icon="pi pi-eye" 
+                    class="p-button-info detail-button" 
+                    (click)="viewDetails(order)">
+            </button>
+        </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
+  
+  <p-dialog header="Chi tiết đơn hàng" [(visible)]="displayDetails" [modal]="true" [style]="{width: '700px'}" (onHide)="hideDetails()">
+    <div *ngIf="selectedOrder">
+      <h3><div><strong>Đơn hàng #</strong>{{ selectedOrder.orderId }}</div></h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+        <div><strong>Người mua:</strong> {{ selectedOrder.buyerName }}</div>
+        <div><strong>Người nhận:</strong> {{ selectedOrder.shippingName || selectedOrder.buyerName }}</div>
+        <div><strong>Điện thoại nhận:</strong> {{ selectedOrder.shippingPhone || '—' }}</div>
+        <div style="flex-basis:100%"><strong>Địa chỉ giao hàng:</strong> {{ selectedOrder.shippingAddress || '—' }}</div>
+        <div><strong>Ngày:</strong> {{ selectedOrder.orderDate | date:'dd/MM/yyyy HH:mm' }}</div>
+        <div><strong>Tổng giá sản phẩm:</strong> {{ getSelectedOrderProductTotal() | number }} đ</div>
+        <div><strong>Giảm giá:</strong> {{ (selectedOrder.discountAmount || 0) | number }} đ</div>
+        <div><strong>Phí vận chuyển:</strong> {{ (selectedOrder.shippingFee || 0) | number }} đ</div>
+        <div><strong>Tổng thanh toán:</strong> {{ (getSelectedOrderProductTotal() - (selectedOrder.discountAmount || 0) + (selectedOrder.shippingFee || 0)) | number }} đ</div>
+      </div>
+      <h5> <div><strong>Trạng thái:</strong> <p-tag [value]="selectedOrder.status" [severity]="getSeverity(selectedOrder.status)"></p-tag></div></h5>
+      <h4>Danh sách sản phẩm</h4>
+      <p-table [value]="selectedOrder.items">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Ảnh</th>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>
+              <img
+                [src]="getFullImageUrl(item.imageUrl)"
+                alt="{{ item.name }}"
+                style="width:48px;height:48px;object-fit:cover"
+              />
+            </td>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.price | number }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-dialog>
 </div>

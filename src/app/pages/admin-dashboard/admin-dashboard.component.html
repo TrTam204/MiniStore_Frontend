@@ -1,9 +1,9 @@
 <div class="dashboard-page">
     <div class="dashboard-header">
-      <div>
+    <div>
         <h2>Dashboard</h2>
         <p>Tổng quan hệ thống MiniStore</p>
-      </div>
+    </div>
     </div>
     <div class="stats-grid">
     <p-card styleClass="stat-card">
@@ -55,7 +55,7 @@
         <p-card styleClass="admin-card chart-card">
             <div class="chart-header">
                 <h3>Doanh thu theo danh mục</h3>
-                <p>Phân bổ tổng thành tiền theo danh mục</p>
+                <p>Phân bổ tổng số lượng bán ra theo danh mục</p>
             </div>
             <div class="chart-container">
                 <p-chart type="doughnut" [data]="chartData" [options]="chartOptions"></p-chart>
@@ -63,7 +63,7 @@
         </p-card>
     </div>
 
- <div class="admin-container">
+<div class="admin-container">
 	<p-card styleClass="admin-card">
 		<p-toolbar styleClass="admin-toolbar">
 			<ng-template pTemplate="start">
@@ -105,15 +105,15 @@
 
 			<ng-template pTemplate="header">
 				<tr>
-					<th style="width: 90px">Đơn</th>
+					<th style="width: 60px">Đơn</th>
 					<th style="width: 130px">Ngày đặt</th>
-					<th>Người mua</th>
-					<th>Email</th>
-					<th>Sản phẩm</th>
-					<th>Danh mục</th>
-					<th style="width: 90px">SL</th>
-					<th style="width: 120px">Thành tiền</th>
-					<th style="width: 120px">Trạng thái</th>
+					<th style="width: 100px">Người mua</th>
+					<th style="width: 210px">Email</th>
+					<th style="width: 130px">Sản phẩm</th>
+					<th style="width: 100px">Danh mục</th>
+					<th style="width: 40px">SL</th>
+					<th style="width: 100px">Thành tiền</th>
+					<th style="width: 100px">Trạng thái</th>
 				</tr>
 			</ng-template>
 
@@ -123,9 +123,9 @@
 					<td>{{ item.orderDate | date:'dd/MM/yyyy HH:mm' }}</td>
 					<td>{{ item.fullName }}</td>
 					<td>{{ item.email }}</td>
-					<td>{{ item.productName }}</td>
+					<td>{{ item.productNames }}</td>
 					<td>{{ item.categoryName }}</td>
-					<td>{{ item.quantity }}</td>
+					<td>{{ item.totalQuantity }}</td>
 					<td>{{ item.totalAmount | currency:'VND':'symbol':'1.0-0' }}</td>
 					<td>{{ item.status || '' }}</td>
 				</tr>

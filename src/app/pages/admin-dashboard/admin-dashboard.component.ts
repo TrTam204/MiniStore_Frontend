@@ -13,7 +13,7 @@ import * as XLSX from 'xlsx';
 import { ProductService } from '../../services/product.service';
 import { CategoryService } from '../../services/category.service';
 import { ReportService } from '../../services/report.service';
-import { OrderService } from '../../services/order.service';
+import { VoucherService } from '../../services/voucher.service';
 
 import { Product } from '../../models/product';
 import { Category } from '../../models/category';
@@ -36,6 +36,7 @@ import { SalesReportSummary } from '../../models/sales-report';
 })
 export class AdminDashboardComponent implements OnInit {
   products: Product[] = [];
+  vouchers: any[] = [];
   categories: Category[] = [];
 
   totalProducts = 0;
@@ -47,7 +48,8 @@ export class AdminDashboardComponent implements OnInit {
     totalOrders: 0,
     totalProductsSold: 0,
     totalRevenue: 0,
-    items: []
+    items: [],
+    categoryBreakdown: []
   };
 
   // Chart data
@@ -66,24 +68,25 @@ export class AdminDashboardComponent implements OnInit {
 
   plugins: {
     legend: {
-      position: 'right',
-      labels: {
-        color: '#ffffff',
-        font: {
-          size: 14,
-          weight: 'bold'
-        },
-        boxWidth: 20,
-        boxHeight: 12,
-        padding: 15
-      }
+    position: 'bottom',
+    align: 'center',
+    labels: {
+      color: '#1edc3a',
+      font: {
+        size: 14,
+        weight: 'bold'
+      },
+      boxWidth: 60,
+      boxHeight: 32,
+      padding: 35
+        }
     },
 
     tooltip: {
       callbacks: {
         label: (context: any) => {
           const value = context.parsed;
-          return `${context.label}: ${value?.toLocaleString('vi-VN')} ₫`;
+          return  `${context.label}: Đã bán ${value?.toLocaleString('vi-VN')} sản phẩm`;
         }
       }
     }
@@ -103,7 +106,7 @@ export class AdminDashboardComponent implements OnInit {
     private categoryService: CategoryService,
     private reportService: ReportService,
     private messageService: MessageService,
-    private orderService: OrderService
+    private voucherService: VoucherService
   ) {}
 
   ngOnInit(): void {
@@ -120,10 +123,44 @@ export class AdminDashboardComponent implements OnInit {
           product => product.quantity <= 5
         ).length;
 
-        this.totalInventoryValue = this.products.reduce(
-          (total, product) => total + product.sellPrice * product.quantity,
-          0
-        );
+          if (this.lowStockProducts > 0) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Cảnh báo',
+              detail: `Có ${this.lowStockProducts} sản phẩm sắp hết hàng.`,
+              life: 5000
+            });
+          }
+
+        // compute inventory value using best percentage voucher per product (if any)
+        this.voucherService.getAll().subscribe({
+          next: (vouchers) => {
+            this.vouchers = Array.isArray(vouchers) ? vouchers : [];
+            this.totalInventoryValue = this.products.reduce((total, product) => {
+              const bestPercent = this.vouchers
+                .filter(v => v.isActive)
+                .filter(v => {
+                  const now = new Date();
+                  const start = new Date(v.startDate);
+                  const end = new Date(v.endDate);
+                  if (start > now || end < now) return false;
+                  if (v.applicableType === 1 && v.applicableCategoryId !== product.categoryId) return false;
+                  if (v.applicableType === 2 && Array.isArray(v.applicableProductIds) && !v.applicableProductIds.includes(product.id)) return false;
+                  return true;
+                })
+                .filter(v => v.discountType === 0) // only percentage-based vouchers
+                .map(v => v.discountValue ?? 0);
+
+              const maxPercent = bestPercent.length > 0 ? Math.max(...bestPercent) : 0;
+              const discountedPrice = product.sellPrice * (1 - (maxPercent / 100));
+              return total + Math.round(discountedPrice) * product.quantity;
+            }, 0);
+          },
+          error: () => {
+            // fallback to base price if voucher fetch fails
+            this.totalInventoryValue = this.products.reduce((total, product) => total + product.sellPrice * product.quantity, 0);
+          }
+        });
       },
       error: (error) => {
         console.error('Load products dashboard error:', error);
@@ -145,23 +182,7 @@ export class AdminDashboardComponent implements OnInit {
     this.reportService.getSalesReport().subscribe({
       next: (res) => {
         this.report = res;
-        // try to enrich report items with order status from Orders API
-        this.orderService.getAllOrders().subscribe({
-          next: (orders) => {
-            const statusMap = new Map<number, string>();
-            (orders || []).forEach(o => statusMap.set(o.orderId, o.status));
-            if (Array.isArray(this.report.items)) {
-              this.report.items.forEach(item => {
-                item.status = statusMap.get(item.orderId) || '';
-              });
-            }
-            this.buildCategoryDoughnutChart(Array.isArray(res.items) ? res.items : []);
-          },
-          error: () => {
-            // if orders fetch fails, still build chart without status
-            this.buildCategoryDoughnutChart(Array.isArray(res.items) ? res.items : []);
-          }
-        });
+        this.buildCategoryDoughnutChart(Array.isArray(res.categoryBreakdown) ? res.categoryBreakdown : []);
       },
       error: (err) => {
         console.error('Load sales report error:', err);
@@ -176,18 +197,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   buildCategoryDoughnutChart(items: any[]): void {
-    const grouped = items.reduce((acc, item) => {
-      const category = item.categoryName || 'Khác';
-      if (!acc[category]) {
-        acc[category] = { quantity: 0, total: 0 };
-      }
-      acc[category].quantity += item.quantity ?? 0;
-      acc[category].total += item.totalAmount ?? 0;
-      return acc;
-    }, {} as Record<string, { quantity: number; total: number }>);
-
-    const labels = Object.keys(grouped);
-    const data = labels.map(label => grouped[label].total);
+    const labels = items.map(item => item.categoryName || 'Khác');
+    const data = items.map(item => item.totalQuantity ?? 0);
 
     this.chartData = {
       labels,
@@ -218,9 +229,8 @@ export class AdminDashboardComponent implements OnInit {
       'Ngày đặt': item.orderDate,
       'Người mua': item.fullName,
       'Email': item.email,
-      'Sản phẩm': item.productName,
-      'Danh mục': item.categoryName,
-      'Số lượng': item.quantity,
+      'Sản phẩm': item.productNames,
+      'Tổng SL': item.totalQuantity,
       'Thành tiền': item.totalAmount,
       'Trạng thái': item.status || ''
     }));
