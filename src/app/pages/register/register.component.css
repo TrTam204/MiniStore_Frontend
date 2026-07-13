@@ -3,18 +3,18 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: radial-gradient(circle at top, #312e81 0%, #020617 70%);
+	background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 55%, #eef2ff 100%);
 	padding: 20px;
 }
 
 .login-card {
 	width: 100%;
 	max-width: 520px;
-	background: rgba(15, 23, 42, 0.85);
-	border: 1px solid #312e81;
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
 	border-radius: 24px;
 	padding: 36px;
-	box-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
+	box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
 	backdrop-filter: blur(10px);
 }
 
@@ -30,12 +30,12 @@
 .logo-title {
 	font-size: 48px;
 	font-weight: bold;
-	color: white;
+	color: #111827;
 	margin-bottom: 10px;
 }
 
 .login-subtitle {
-	color: #c4b5fd;
+	color: #64748b;
 	font-size: 16px;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .input-label {
-	color: white;
+	color: #334155;
 	font-size: 15px;
 	font-weight: 600;
 }
@@ -64,28 +64,28 @@
 	left: 15px;
 	top: 50%;
 	transform: translateY(-50%);
-	color: #a78bfa;
+	color: #64748b;
 }
 
 .input-wrapper input {
 	width: 100%;
 	padding: 14px 14px 14px 45px;
 	border-radius: 14px;
-	border: 1px solid #4c1d95;
-	background: #0f172a;
-	color: white;
+	border: 1px solid #d1d5db;
+	background: #ffffff;
+	color: #111827;
 	font-size: 15px;
 }
 
 .input-wrapper input:focus {
 	outline: none;
-	border-color: #8b5cf6;
-	box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+	border-color: #60a5fa;
+	box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.18);
 }
 
 :host ::ng-deep .login-btn {
 	width: 100%;
-	background: linear-gradient(90deg, #7c3aed, #4f46e5);
+	background: linear-gradient(90deg, #2563eb, #4f46e5);
 	border: none;
 	border-radius: 14px;
 	padding: 14px;
@@ -96,12 +96,12 @@
 .login-note {
 	margin-top: 20px;
 	text-align: center;
-	color: #94a3b8;
+	color: #64748b;
 	font-size: 13px;
 }
 
 .register-link {
-	color: #c4b5fd;
+	color: #2563eb;
 	text-decoration: none;
 	font-weight: 600;
 }

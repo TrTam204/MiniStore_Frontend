@@ -16,12 +16,12 @@
     margin: 0;
     font-size: 1.8rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #111827;
     }
 
     .dashboard-header p {
     margin: 0.35rem 0 0;
-    color: #94a3b8;
+    color: #64748b;
     }
 
     .stats-grid {
@@ -65,7 +65,7 @@
 
     .stat-label {
     margin: 0;
-    color: #94a3b8;
+    color: #64748b;
     font-size: 0.9rem;
     }
 
@@ -73,7 +73,7 @@
     margin: 0.3rem 0 0;
     font-size: 1.6rem;
     font-weight: 800;
-    color: #ffffff;
+    color: #111827;
     }
 
     .dashboard-actions {
@@ -87,7 +87,7 @@
 
     .quick-card p {
     margin: 0.35rem 0 1rem;
-    color: #94a3b8;
+    color: #64748b;
     }
 
     .quick-actions {
@@ -98,10 +98,11 @@
 
     :host ::ng-deep .stat-card,
     :host ::ng-deep .quick-card {
-    background: #18181b;
-    color: #ffffff;
+    background: #ffffff;
+    color: #111827;
     border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
     }
 
     :host ::ng-deep .stat-card .p-card-body,
@@ -144,12 +145,12 @@
     margin: 0;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #111827;
     }
 
     .page-subtitle {
     margin: 0.25rem 0 0;
-    color: #94a3b8;
+    color: #64748b;
     font-size: 0.9rem;
     }
 
@@ -161,34 +162,35 @@
     }
 
     .summary-card {
-    background: #111827;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 16px;
     padding: 1rem 1.1rem;
     display: grid;
     gap: 0.35rem;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
     }
 
     .summary-card span {
-    color: #94a3b8;
+    color: #64748b;
     font-size: 0.9rem;
     }
 
     .summary-card strong {
-    color: #ffffff;
+    color: #111827;
     font-size: 1.4rem;
     }
 
     .empty-message {
     text-align: center;
     padding: 2rem;
-    color: #94a3b8;
+    color: #64748b;
     }
 
     .chart-card {
     margin-bottom: 1.5rem;
-    background: #d4d4e1 !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
     }
 
     :host ::ng-deep .chart-card .p-card-body {
@@ -205,12 +207,12 @@
     margin: 0;
     font-size: 1.3rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #111827;
     }
 
     .chart-header p {
     margin: 0.5rem 0 0;
-    color: #94a3b8;
+    color: #64748b;
     font-size: 0.9rem;
     }
 

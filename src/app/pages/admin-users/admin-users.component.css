@@ -17,18 +17,18 @@
   margin: 0;
   font-size: 1.4rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #111827;
 }
 
 .page-subtitle {
   margin: 0.25rem 0 0;
-  color: #94a3b8;
+  color: #64748b;
   font-size: 0.9rem;
 }
 
 .user-name-cell {
   font-weight: 600;
-  color: #ffffff;
+  color: #111827;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -52,15 +52,16 @@
 .empty-message {
   text-align: center;
   padding: 2rem;
-  color: #94a3b8;
+  color: #64748b;
 }
 
 
 :host ::ng-deep .admin-card {
-  background: #18181b;
-  color: #ffffff;
+  background: #ffffff;
+  color: #111827;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 :host ::ng-deep .admin-card .p-card-body {
@@ -73,50 +74,50 @@
 
 :host ::ng-deep .admin-toolbar {
   padding: 0.75rem 1rem;
-  background: #18181b;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
 }
 
 :host ::ng-deep .user-table .p-datatable-thead > tr > th {
-  background: #18181b;
-  color: #ffffff;
+  background: #f8fafc;
+  color: #334155;
   padding: 0.65rem 0.75rem;
   font-size: 0.9rem;
   font-weight: 700;
   white-space: nowrap;
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: #e5e7eb;
 }
 
 :host ::ng-deep .user-table .p-datatable-tbody > tr > td {
-  background: #020617;
-  color: #ffffff;
+  background: #ffffff;
+  color: #334155;
   padding: 0.6rem 0.75rem;
   font-size: 0.9rem;
   vertical-align: middle;
   height: 72px;
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: #e5e7eb;
 }
 
 
 :host ::ng-deep .user-table .p-datatable-tbody > tr:nth-child(even) > td {
-  background: #111827;
+  background: #f8fafc;
 }
 
 
 :host ::ng-deep .user-table .p-datatable-tbody > tr:hover > td {
-  background: #1e293b;
+  background: #eef2ff;
 }
 
 
 :host ::ng-deep .user-table .p-paginator {
   padding: 0.5rem;
-  background: #18181b;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  color: #334155;
+  border-color: #e5e7eb;
 }
 
 :host ::ng-deep .user-table .p-paginator .p-paginator-current {
-  color: #cbd5e1;
+  color: #475569;
 }
 
 :host ::ng-deep .user-table .p-paginator .p-paginator-page,
@@ -124,7 +125,7 @@
 :host ::ng-deep .user-table .p-paginator .p-paginator-prev,
 :host ::ng-deep .user-table .p-paginator .p-paginator-next,
 :host ::ng-deep .user-table .p-paginator .p-paginator-last {
-  color: #cbd5e1;
+  color: #475569;
 }
 
 

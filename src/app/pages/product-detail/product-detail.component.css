@@ -1,19 +1,12 @@
 .detail-container {
     min-height: 100vh;
     padding: 40px;
-
     display: flex;
     gap: 40px;
-
     justify-content: center;
     align-items: flex-start;
-
-    background: linear-gradient(
-        135deg,
-        #020617,
-        #0f172a,
-        #1e293b
-    );
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 55%, #eef2ff 100%);
+    color: #111827;
 }
 
 .detail-image {
@@ -31,14 +24,11 @@
 .detail-content {
     flex: 1;
     max-width: 800px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
     min-height: 450px;
-
-    color: white;
+    color: #111827;
 }
 
 .detail-info {
@@ -50,40 +40,31 @@
 .detail-name {
     font-size: 42px;
     font-weight: 600;
+    color: #111827;
 }
 
 .detail-price {
     font-size: 36px;
-    color: #38bdf8;
-    font-weight: 500;
+    color: #2563eb;
+    font-weight: 600;
 }
 
 .detail-description {
     font-size: 18px;
     line-height: 1.8;
-    color: #cbd5e1;
+    color: #475569;
 }
-
-/* ========================= */
-/* RELATED PRODUCTS */
-/* ========================= */
 
 .related-products {
     padding: 0 40px 40px;
-
-    background: linear-gradient(
-        135deg,
-        #020617,
-        #0f172a,
-        #1e293b
-    );
-
-    color: white;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 55%, #eef2ff 100%);
+    color: #111827;
 }
 
 .related-products h3 {
     margin-bottom: 20px;
     font-size: 24px;
+    color: #111827;
 }
 
 .related-grid {
@@ -93,39 +74,35 @@
 }
 
 .related-card {
-    background: rgba(255, 255, 255, 0.05);
-
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 12px;
-
     cursor: pointer;
-
     transition: all 0.3s ease;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
 }
 
 .related-card:hover {
     transform: translateY(-5px);
-
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .related-card img {
     width: 100%;
     height: 180px;
-
     object-fit: cover;
-
     border-radius: 8px;
 }
 
 .related-name {
     margin-top: 10px;
-    color: white;
-    font-weight: 500;
+    color: #111827;
+    font-weight: 600;
 }
 
 .related-price {
     margin-top: 6px;
-    color: #38bdf8;
+    color: #2563eb;
     font-weight: 600;
 }

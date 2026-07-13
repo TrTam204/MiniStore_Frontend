@@ -1,4 +1,25 @@
 ﻿/* You can add global styles to this file, and also import other style files */
+:root {
+    color-scheme: light;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+    background: #f8f9fa;
+    color: #212529;
+    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+    background: #f8f9fa;
+    color: #212529;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 .p-autocomplete-overlay {
     width: 600px !important;
     max-height: 500px !important;
