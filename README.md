@@ -566,40 +566,5 @@ Nếu đổi cổng frontend, cần kiểm tra lại cấu hình CORS của back
 
 ### Package bị lỗi sau khi cập nhật
 
-Xóa thư mục `node_modules` rồi cài lại:
-
-Windows PowerShell:
-
-```powershell
-Remove-Item -Recurse -Force node_modules
-npm install
-```
-
-Windows Command Prompt:
-
-```cmd
-rmdir /s /q node_modules
-npm install
-```
-
-## 14. Địa chỉ truy cập
-
-```text
-Frontend:         http://localhost:4200
-Trang đăng nhập:  http://localhost:4200/login
-Trang quản trị:   http://localhost:4200/admin/dashboard
-Backend:          http://localhost:5128
-Swagger:          http://localhost:5128/swagger
-```
-
-## 15. Tài khoản chạy thử
-
-```text
-Vai trò:   Quản trị viên
-Email:     admin@gmail.com
-Mật khẩu:  admin123
-```
-
-## Tác giả
-
+Xóa thư mục `node_modules` rồTam
 Dự án MiniStore được thực hiện phục vụ quá trình học tập và thực tập lập trình Fullstack với Angular và ASP.NET Core Web API.
