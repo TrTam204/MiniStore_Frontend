@@ -111,3 +111,28 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 576px) {
+  .payment-block {
+    padding: 14px;
+  }
+
+  .order-item,
+  .summary-row {
+    gap: 12px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .method-card {
+    align-items: flex-start;
+  }
+
+  .field input {
+    width: 100%;
+  }
+
+  .right-section > button {
+    width: 100%;
+  }
+}

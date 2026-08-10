@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 export interface ForgotPasswordRequest { email: string }
 export interface VerifyOtpRequest { email: string; otp: string }
 export interface ResetPasswordRequest { email: string; otp: string; newPassword: string }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'http://localhost:5128/api/Auth';
+  private baseUrl = `${environment.apiUrl}/api/Auth`;
 
   constructor(private http: HttpClient) {}
 

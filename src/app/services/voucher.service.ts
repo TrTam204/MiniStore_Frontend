@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Voucher } from '../models/voucher';
 import { CheckoutItem } from '../models/checkout-request';
-
+import { environment } from '../../environments/environment';
 export interface ApplyVoucherRequest {
   code: string;
   orderAmount: number;
@@ -22,7 +22,7 @@ export interface ApplyVoucherResponse {
   providedIn: 'root'
 })
 export class VoucherService {
-  private apiUrl = 'http://localhost:5128/api/vouchers';
+  private apiUrl = `${environment.apiUrl}/api/Vouchers`;
   constructor(private http: HttpClient) {}
 
   apply(code: string, orderAmount: number, items?: CheckoutItem[], userId?: number): Observable<ApplyVoucherResponse> {

@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { CheckoutRequest } from '../models/checkout-request';
 import { OrderHistory } from '../models/order-history';
 import { UserService } from './user.service';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:5128/api/Orders';
+  private apiUrl = `${environment.apiUrl}/api/Orders`;
   constructor(private http: HttpClient) { }
 
   checkout(request: CheckoutRequest): Observable<string> {

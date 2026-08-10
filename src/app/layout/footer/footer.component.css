@@ -56,4 +56,12 @@
 	.footer-grid {
 		grid-template-columns: 1fr;
 	}
+
+	.mini-footer {
+		padding: 24px 16px 16px;
+	}
+
+	.footer-bottom {
+		margin-top: 20px;
+	}
 }

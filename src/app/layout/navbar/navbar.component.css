@@ -54,6 +54,11 @@
         justify-content: flex-end;
         }
 
+        .mobile-menu-toggle,
+        .mobile-dropdown {
+        display: none;
+        }
+
         .navbar-menu {
         display: flex;
         gap: 26px;
@@ -262,4 +267,221 @@
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        height: auto;
+        padding: 16px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .navbar-left,
+    .navbar-center,
+    .navbar-right {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .navbar-left {
+        display: flex;
+        justify-content: center;
+    }
+
+    .logo {
+        min-width: 0;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .navbar-center {
+        order: 2;
+    }
+
+    .desktop-navbar-right {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex;
+        order: 3;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.12);
+        color: white;
+        cursor: pointer;
+    }
+
+    .mobile-dropdown {
+        display: grid;
+        gap: 14px;
+        padding: 14px 16px 16px;
+        margin: 0 16px 16px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .mobile-nav-menu {
+        display: grid;
+        gap: 10px;
+    }
+
+    .mobile-nav-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: #1f2937;
+        text-decoration: none;
+        background: #f8fafc;
+    }
+
+    .mobile-nav-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .search-wrapper,
+    .search-autocomplete {
+        width: 100%;
+    }
+
+    :host ::ng-deep .p-autocomplete-input {
+        width: 100% !important;
+        height: 44px !important;
+        font-size: 15px;
+    }
+
+    .nav-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    :host ::ng-deep .p-drawer-right {
+        width: 100vw;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-menu {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .navbar-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .cart-image-button {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .drawer-cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .drawer-product-image {
+        width: 100%;
+        height: 180px;
+    }
+
+    .voucher-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        position: relative;
+        align-items: flex-start;
+    }
+
+    .navbar-left {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navbar-center {
+        width: 100%;
+        order: 2;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-wrapper,
+    .search-autocomplete {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .mobile-menu-toggle {
+        display: inline-flex;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.14);
+        color: white;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .mobile-menu-toggle .pi {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .desktop-navbar-right {
+        display: none;
+    }
+
+    .mobile-dropdown {
+        display: grid;
+        gap: 14px;
+        padding: 14px 16px 16px;
+        margin: 0 16px 16px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .mobile-nav-menu {
+        display: grid;
+        gap: 10px;
+    }
+
+    .mobile-nav-menu a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: #1f2937;
+        text-decoration: none;
+        background: #f8fafc;
+    }
+
+    .mobile-nav-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+    }
 }

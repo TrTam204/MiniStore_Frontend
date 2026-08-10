@@ -38,3 +38,14 @@
   color: #6b7280;
   padding: 1rem;
 }
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  :host ::ng-deep .category-table .p-datatable-table {
+    min-width: 760px;
+  }
+}

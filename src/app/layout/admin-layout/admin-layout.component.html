@@ -1,30 +1,30 @@
-    <div class="admin-layout">
+    <div class="admin-layout" [class.mobile-menu-open]="isMenuOpen">
     <aside class="admin-sidebar">
         <h2 class="admin-logo">ADMIN PANEL</h2>
         <nav class="admin-menu">
-        <a routerLink="/admin/dashboard" routerLinkActive="active">
+        <a routerLink="/admin/dashboard" routerLinkActive="active" (click)="closeMenu()">
         🏠 Dashboard
         </a>
-        <a routerLink="/admin/product" routerLinkActive="active">
+        <a routerLink="/admin/product" routerLinkActive="active" (click)="closeMenu()">
             📦 Quản lý Sản phẩm
         </a>
 
-        <a routerLink="/admin/category" routerLinkActive="active">
+        <a routerLink="/admin/category" routerLinkActive="active" (click)="closeMenu()">
             📁 Quản lý Danh mục
         </a>
 
-        <a routerLink="/admin/brand" routerLinkActive="active">
+        <a routerLink="/admin/brand" routerLinkActive="active" (click)="closeMenu()">
             🏷️ Quản lý Thương hiệu
         </a>
 
-        <a routerLink="/admin/users" routerLinkActive="active">
+        <a routerLink="/admin/users" routerLinkActive="active" (click)="closeMenu()">
             👥 Quản lý Người dùng
         </a>
 
-        <a routerLink="/admin/orders" routerLinkActive="active">
+        <a routerLink="/admin/orders" routerLinkActive="active" (click)="closeMenu()">
             🧾 Quản lý Đơn hàng
         </a>
-        <a routerLink="/admin/vouchers" routerLinkActive="active">
+        <a routerLink="/admin/vouchers" routerLinkActive="active" (click)="closeMenu()">
             🎟️ Quản lý Voucher
         </a>
         </nav>
@@ -32,6 +32,10 @@
 
     <main class="admin-main">
         <header class="admin-header">
+        <button type="button" class="admin-menu-toggle" (click)="toggleMenu()">
+            <i class="pi" [ngClass]="isMenuOpen ? 'pi-times' : 'pi-bars'"></i>
+        </button>
+
         <h3>Hệ thống quản trị</h3>
 
         <div class="admin-header-actions">

@@ -71,14 +71,14 @@ export class AdminDashboardComponent implements OnInit {
     position: 'bottom',
     align: 'center',
     labels: {
-      color: '#1edc3a',
+      color: '#111827',
       font: {
-        size: 14,
-        weight: 'bold'
+        size: 11,
+        weight: '600'
       },
-      boxWidth: 60,
-      boxHeight: 32,
-      padding: 35
+      boxWidth: 24,
+      boxHeight: 12,
+      padding: 12
         }
     },
 
@@ -96,8 +96,11 @@ export class AdminDashboardComponent implements OnInit {
     duration: 300
   },
 
+  cutout: '74%',
+  radius: '76%',
+
   layout: {
-    padding: 10
+    padding: 2
   }
 };
 

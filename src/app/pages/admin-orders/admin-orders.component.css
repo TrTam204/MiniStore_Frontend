@@ -18,3 +18,24 @@
 .action-buttons button {
   height: 40px;
 }
+
+@media (max-width: 768px) {
+  .admin-orders {
+    padding: 0;
+  }
+
+  .status-dropdown {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .action-buttons {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-buttons button {
+    width: 100%;
+  }
+}

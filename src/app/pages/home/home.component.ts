@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
+import { environment } from '../../../environments/environment';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ChipModule } from 'primeng/chip';
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit
     filteredProducts: Product[] = [];
     categories: Category[] = [];
     products: Product[] = [];
+    selectedCategoryId: string = 'all';
     imagePreview: string | null = null;
     productForm!: FormGroup;
     productId!: number;
@@ -50,7 +52,8 @@ export class HomeComponent implements OnInit
         {
         }
     ngOnInit(): void
-    { this.loadData();
+    { this.updateRowsForViewport();
+    this.loadData();
 
     this.searchService.searchKeyword$
     .subscribe(keyword =>
@@ -66,6 +69,15 @@ export class HomeComponent implements OnInit
             .includes(keyword.toLowerCase())
         );
     });
+    }
+
+    @HostListener('window:resize')
+    onWindowResize(): void {
+        this.updateRowsForViewport();
+    }
+
+    private updateRowsForViewport(): void {
+        this.rows = window.innerWidth <= 576 ? 6 : 5;
     }
     loadData()
     {
@@ -84,7 +96,7 @@ export class HomeComponent implements OnInit
     getFullImageUrl(url: string | undefined): string {
     if (!url) return '';
     if (url.startsWith('http') || url.startsWith('data:image')) return url;
-    return `http://localhost:5128${url}`;
+    return `${environment.apiUrl}${url}`;
     }
     addToCart(product: any, event?: Event) {
         if (event) {
@@ -113,10 +125,12 @@ export class HomeComponent implements OnInit
         });
     }
     showAllProducts(): void {
+    this.selectedCategoryId = 'all';
     this.filteredProducts = this.products;
     }
     selectCategory(categoryId: number): void
     {
+        this.selectedCategoryId = String(categoryId);
         this.filteredProducts = this.products.filter(
             product => product.categoryId === categoryId
         );
@@ -124,6 +138,29 @@ export class HomeComponent implements OnInit
             top: 350,
             behavior: 'smooth'
         });
+    }
+
+    onCategorySelect(value: string): void {
+        if (value === 'all') {
+            this.showAllProducts();
+            return;
+        }
+
+        const categoryId = Number(value);
+        if (Number.isNaN(categoryId)) {
+            return;
+        }
+
+        this.selectCategory(categoryId);
+    }
+
+    getSelectedCategoryLabel(): string {
+        if (this.selectedCategoryId === 'all') {
+            return 'Tất cả';
+        }
+
+        const selectedCategory = this.categories.find(category => String(category.id) === this.selectedCategoryId);
+        return selectedCategory?.name ?? 'Tất cả';
     }
     goToDetail(id: number): void
     {this.router.navigate(['/product-detail', id]);}

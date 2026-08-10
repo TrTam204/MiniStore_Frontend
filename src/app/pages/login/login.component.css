@@ -104,3 +104,24 @@
 .register-link:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 576px) {
+  .login-wrapper {
+    padding: 14px;
+    align-items: flex-start;
+  }
+
+  .login-card {
+    width: 100%;
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .logo-title {
+    font-size: 34px;
+  }
+
+  .login-form {
+    gap: 16px;
+  }
+}

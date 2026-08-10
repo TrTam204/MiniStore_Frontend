@@ -9,6 +9,7 @@ import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { BrandService } from '../../services/brand.service';
 import { Brand } from '../../models/brand';
+import { environment } from '../../../environments/environment';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -87,7 +88,7 @@ export class ProductUpdateComponent implements OnInit
     getFullImageUrl(url: string | null | undefined): string {
         if (!url) return '';
         if (url.startsWith('http') || url.startsWith('data:image')) return url;
-        return `http://localhost:5128${url}`;
+        return `${environment.apiUrl}${url}`;
     }
 
     onSaveProduct() {

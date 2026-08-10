@@ -17,6 +17,7 @@ import { filter } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../services/seach.service';
 import { Product } from '../../models/product';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -35,6 +36,7 @@ import { Product } from '../../models/product';
 export class NavbarComponent implements OnInit {
   cart: Cart | null = null;
   isCartOpen = false;
+  isMenuOpen = false;
   isLoggedIn = false;
   products: Product[] = [];
   suggestions: Product[] = [];
@@ -66,6 +68,14 @@ export class NavbarComponent implements OnInit {
   checkLoginStatus(): void {
     this.isLoggedIn = !!localStorage.getItem('token');
   }
+
+  toggleMobileMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.isMenuOpen = false;
+  }
   filterProducts(event: any): void {
     const query = event.query.toLowerCase();
     this.suggestions = this.products.filter(product =>
@@ -77,6 +87,7 @@ export class NavbarComponent implements OnInit {
   onSelectProduct(product: Product): void {
     console.log('Selected product:', product);
     this.searchKeyword = '';
+    this.closeMobileMenu();
     this.router.navigate(['/product-detail', product.id]);
   }
 
@@ -190,7 +201,7 @@ export class NavbarComponent implements OnInit {
   if (url.startsWith('http') || url.startsWith('data:image')) {
     return url;
   }
-  return `http://localhost:5128${url}`;
+  return `${environment.apiUrl}${url}`;
   }
   checkout(): void {
     if (!this.cart || this.cart.cartDetails.length === 0) {
@@ -199,6 +210,7 @@ export class NavbarComponent implements OnInit {
     }
 
     this.isCartOpen = false;
+    this.closeMobileMenu();
     this.router.navigate(['/payment'], {
       state: {
         voucherCode: this.voucherPreview && this.voucherPreview.isValid ? this.voucherCode : '',

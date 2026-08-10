@@ -12,6 +12,7 @@
     </ng-template>
   </p-toolbar>
 
+  <div class="table-scroll">
   <p-table [value]="vouchers" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]" styleClass="voucher-table compact-table" [tableStyle]="{ 'width': '100%', 'table-layout': 'fixed' }" stripedRows showGridlines>
     <ng-template pTemplate="header">
       <tr>
@@ -58,4 +59,5 @@
       </tr>
     </ng-template>
   </p-table>
+  </div>
 </p-card>

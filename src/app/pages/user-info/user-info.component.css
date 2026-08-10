@@ -114,6 +114,12 @@ flex-direction: column;
   border-radius: 12px;
 }
 
+.order-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .order-table th,
 .order-table td {
   border: 1px solid #e5e7eb;
@@ -143,4 +149,41 @@ flex-direction: column;
 .order-table td:last-child {
   color: #16a34a;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .user-info-container {
+    padding: 20px 16px;
+  }
+
+  .user-card {
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+
+  .user-card h2,
+  .order-history-container h2 {
+    font-size: 24px;
+  }
+
+  .logout-btn {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .order-card {
+    width: 100%;
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .order-header {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 576px) {
+  .order-header h3 {
+    font-size: 18px;
+  }
 }

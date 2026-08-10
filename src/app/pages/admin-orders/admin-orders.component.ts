@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OrderService } from '../../services/order.service';
 import { OrderHistory } from '../../models/order-history';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-admin-orders',
@@ -125,7 +126,7 @@ import { OrderHistory } from '../../models/order-history';
     getFullImageUrl(url: string | undefined): string {
     if (!url) return '';
     if (url.startsWith('http') || url.startsWith('data:image')) return url;
-    return `http://localhost:5128${url}`;
+    return `${environment.apiUrl}${url}`;
     }
 
     viewDetails(order: OrderHistory): void {

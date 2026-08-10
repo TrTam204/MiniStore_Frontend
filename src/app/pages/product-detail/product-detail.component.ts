@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
@@ -66,7 +67,7 @@ export class ProductDetailComponent implements OnInit
     getFullImageUrl(url: string | undefined): string {
     if (!url) return '';
     if (url.startsWith('http') || url.startsWith('data:image')) return url;
-    return `http://localhost:5128${url}`;
+    return `${environment.apiUrl}${url}`;
     }
     goToDetail(id: number): void
     {this.router.navigate(['/product-detail', id]);}

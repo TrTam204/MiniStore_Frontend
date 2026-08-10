@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { UserCreate } from '../models/user-create.model';
 import { UserUpdate } from '../models/user-update.model';
-
+import { environment } from '../../environments/environment';
 export interface LoginRequest {
   email: string;
   password: string;
@@ -29,9 +29,8 @@ export interface RegisterRequest {
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:5128/api/Users';
-
-  private authApiUrl = 'http://localhost:5128/api/Auth';
+  private apiUrl = `${environment.apiUrl}/api/Users`;
+  private authApiUrl = `${environment.apiUrl}/api/Auth`;
 
   constructor(private http: HttpClient) {}
 

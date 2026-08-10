@@ -14,8 +14,7 @@
             (completeMethod)="filterProducts($event)"
             (onSelect)="onSelectProduct($event.value)"
             optionLabel="name"
-            placeholder="Tìm sản phẩm..."
-            [style]="{'width':'600px'}">
+            placeholder="Tìm sản phẩm...">
 
             <ng-template let-product pTemplate="item">
                 <div class="product-suggestion">
@@ -39,17 +38,17 @@
         </span>
     </div>
 
-    <div class="navbar-right">
+        <div class="navbar-right desktop-navbar-right">
         <nav class="navbar-menu">
-        <a routerLink="/home">
+                <a routerLink="/home" (click)="closeMobileMenu()">
         <img src="assets/home.png" alt="Home" class="nav-icon"></a>
-        <a *ngIf="isLoggedIn" routerLink="/offers" class="nav-icon-link">
+                <a *ngIf="isLoggedIn" routerLink="/offers" class="nav-icon-link" (click)="closeMobileMenu()">
           <img src="assets/voucher.png" alt="Vouchers" class="nav-icon">
         </a>
-        <a *ngIf="isLoggedIn" routerLink="/user-info">
+                <a *ngIf="isLoggedIn" routerLink="/user-info" (click)="closeMobileMenu()">
         <img src="assets/information.png" alt="User-info" class="nav-icon">
         </a>
-        <a *ngIf="!isLoggedIn" routerLink="/login">
+                <a *ngIf="!isLoggedIn" routerLink="/login" (click)="closeMobileMenu()">
         <img src="assets/login.png" alt="Login" class="nav-icon">
         </a>
         </nav>
@@ -76,6 +75,42 @@
         </button>
         </div>
     </div>
+
+    <button type="button" class="mobile-menu-toggle" (click)="toggleMobileMenu()" aria-label="Mở menu">
+        <i class="pi" [ngClass]="isMenuOpen ? 'pi-times' : 'pi-bars'"></i>
+    </button>
+    </div>
+
+    <div class="mobile-dropdown" *ngIf="isMenuOpen">
+        <nav class="mobile-nav-menu">
+            <a routerLink="/home" (click)="closeMobileMenu()">🏠 Trang chủ</a>
+            <a *ngIf="isLoggedIn" routerLink="/offers" (click)="closeMobileMenu()">🎟️ Voucher</a>
+            <a *ngIf="isLoggedIn" routerLink="/user-info" (click)="closeMobileMenu()">👤 Tài khoản</a>
+            <a *ngIf="!isLoggedIn" routerLink="/login" (click)="closeMobileMenu()">🔐 Đăng nhập</a>
+        </nav>
+
+        <div class="mobile-nav-actions" *ngIf="isLoggedIn">
+            <button
+                pButton
+                type="button"
+                class="p-button-rounded p-button-text cart-image-button"
+                (click)="openCart(); closeMobileMenu()">
+                <img
+                    src="assets/add-to-cart.png"
+                    alt="cart"
+                    class="cart-icon-image" />
+                <span class="cart-quantity">
+                    (+{{ getCartQuantity() }})
+                </span>
+            </button>
+
+            <button
+                pButton
+                type="button"
+                icon="pi pi-user"
+                class="p-button-rounded p-button-text">
+            </button>
+        </div>
     </div>
 
     <p-drawer

@@ -24,6 +24,29 @@
             </div>
         </div>
     </div>
+    <div class="mobile-category-filter">
+        <label>Danh mục</label>
+        <details class="mobile-category-dropdown">
+            <summary>
+                <span>{{ getSelectedCategoryLabel() }}</span>
+                <i class="pi pi-chevron-down"></i>
+            </summary>
+
+            <div class="mobile-category-options">
+                <button type="button" (click)="showAllProducts()" [class.active]="selectedCategoryId === 'all'">
+                    Tất cả
+                </button>
+
+                <button
+                    type="button"
+                    *ngFor="let category of categories"
+                    (click)="selectCategory(category.id)"
+                    [class.active]="selectedCategoryId === category.id.toString()">
+                    {{ category.name }}
+                </button>
+            </div>
+        </details>
+    </div>
     <div class="product-section">
         <div class="product-section-title">SẢN PHẨM</div>
         <div class="product-list">

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { environment } from '../../../environments/environment';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
@@ -22,7 +23,7 @@ export class ProductsComponent implements OnInit {
   getFullImageUrl(url: string | null | undefined): string {
     if (!url) return '';
     if (url.startsWith('http') || url.startsWith('data:image')) return url;
-    return `http://localhost:5128${url}`;
+    return `${environment.apiUrl}${url}`;
   }
 
   constructor(private service: ProductService,

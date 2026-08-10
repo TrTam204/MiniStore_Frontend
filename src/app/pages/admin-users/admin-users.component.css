@@ -55,6 +55,11 @@
   color: #64748b;
 }
 
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
 
 :host ::ng-deep .admin-card {
   background: #ffffff;
@@ -145,4 +150,23 @@
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.35rem 0.55rem;
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 0;
+  }
+
+  .table-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  :host ::ng-deep .user-table .p-datatable-tbody > tr > td {
+    height: auto;
+  }
+
+  :host ::ng-deep .user-table .p-datatable-table {
+    min-width: 860px;
+  }
 }
