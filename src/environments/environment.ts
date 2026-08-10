@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://ttam-ministore.somee.com'
+  apiUrl: 'https://ttam-ministore.somee.com/api'
 };
